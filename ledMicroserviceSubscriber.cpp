@@ -78,7 +78,7 @@ void exit_program(int s){
 }
 
 int main(){
-    std::signal(SIGINT, exit_program);
+//    std::signal(SIGINT, exit_program);
 
     MQTTClient client;
     MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
@@ -101,6 +101,16 @@ int main(){
            "Press Q<Enter> to quit\n\n", TOPIC, CLIENTID, QOS);
     MQTTClient_subscribe(client, TOPIC, QOS);
 
+    do
+    {
+        ch = getchar();
+    } while(ch!='Q' && ch != 'q');
+
+    MQTTClient_unsubscribe(client, TOPIC);
+    MQTTClient_disconnect(client, 10000);
+    MQTTClient_destroy(&client);
+    return rc;
+
 //    wiringPiSetupGpio();
 //
 //    std::cout << "\nControlling the GPIO pins with wiringPi\n";
@@ -109,8 +119,4 @@ int main(){
 //
 //    int time = 500;
 //    switch_led(pin);
-
-    mqtt::async_client client(ADDRESS, CLIENTID);
-
-    return 0;
 }
