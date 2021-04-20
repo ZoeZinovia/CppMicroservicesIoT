@@ -7,6 +7,11 @@ extern "C" {
 }
 #include <csignal>
 #include <iostream>
+#include "mqtt/async_client.h"
+
+const std::string ADDRESS("10.35.0.229:1883");
+const std::string CLIENTID("AsyncPublisher");
+const std::string TOPIC("Temperature");
 
 //using namespace std;
 
@@ -33,13 +38,15 @@ int main(){
 
     wiringPiSetupGpio();
 
-    std::cout << "Controlling the GPIO pins with wiringPi\n";
+    std::cout << "\nControlling the GPIO pins with wiringPi\n";
 
     int pin = 17;
 
     int time = 500;
     switch_led(pin);
 
-    std::cout << "Program ended";
+    mqtt::async_client client(ADDRESS, CLIENTID);
+
+    std::cout << "Program ended\n";
 
 }
