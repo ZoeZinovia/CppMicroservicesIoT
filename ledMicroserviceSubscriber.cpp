@@ -12,14 +12,16 @@ extern "C" {
 
 bool RUNNING = true;
 
-void blink_led(int pin, int time){
+void switch_led(int pin){
+    int status = digitalRead(pin);
     pinMode(pin, OUTPUT);
-    digitalWrite(pin, HIGH);
-    std::cout << "ON!";
-//    delay(time);
-//    digitalWrite(pin, LOW);
-//    std::cout << "OFF!";
-//    delay(time);
+    if(status == 0) {
+        digitalWrite(pin, HIGH);
+        std::cout << "ON!";
+    } else{
+        digitalWrite(pin, LOW);
+        std::cout << "OFF!";
+    }
 }
 
 void exit_program(int s){
@@ -36,7 +38,7 @@ int main(){
     int pin = 17;
 
     int time = 500;
-    blink_led(pin, time);
+    switch_led(pin);
 
     std::cout << "Program ended";
 
