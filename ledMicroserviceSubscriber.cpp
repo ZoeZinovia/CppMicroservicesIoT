@@ -4,7 +4,6 @@
 
 extern "C" {
 #include <wiringPi.h>
-#include "mqtt/async_client.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
