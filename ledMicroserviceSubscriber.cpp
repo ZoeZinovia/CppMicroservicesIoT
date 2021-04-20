@@ -23,8 +23,21 @@ extern "C" {
 //using namespace std;
 
 bool RUNNING = true;
+int pin = 17;
 
 volatile MQTTClient_deliveryToken deliveredtoken;
+
+void switch_led(int pin){
+    int status = digitalRead(pin);
+    pinMode(pin, OUTPUT);
+    if(status == 0) {
+        digitalWrite(pin, HIGH);
+        std::cout << "\nON!\n";
+    } else{
+        digitalWrite(pin, LOW);
+        std::cout << "\nOFF!\n";
+    }
+}
 
 void delivered(void *context, MQTTClient_deliveryToken dt)
 {
@@ -47,6 +60,8 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
         putchar(*payloadptr++);
     }
     putchar('\n');
+
+    switch_led(pin);
     MQTTClient_freeMessage(&message);
     MQTTClient_free(topicName);
     return 1;
@@ -58,18 +73,6 @@ void connlost(void *context, char *cause)
     printf("     cause: %s\n", cause);
 }
 
-void switch_led(int pin){
-    int status = digitalRead(pin);
-    pinMode(pin, OUTPUT);
-    if(status == 0) {
-        digitalWrite(pin, HIGH);
-        std::cout << "\nON!\n";
-    } else{
-        digitalWrite(pin, LOW);
-        std::cout << "\nOFF!\n";
-    }
-}
-
 //void exit_program(int s){
 //    MQTTClient_unsubscribe(client, TOPIC);
 //    MQTTClient_disconnect(client, 10000);
@@ -79,6 +82,7 @@ void switch_led(int pin){
 
 int main(){
 //    std::signal(SIGINT, exit_program);
+    wiringPiSetupGpio();
 
     MQTTClient client;
     MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
@@ -110,13 +114,4 @@ int main(){
     MQTTClient_disconnect(client, 10000);
     MQTTClient_destroy(&client);
     return rc;
-
-//    wiringPiSetupGpio();
-//
-//    std::cout << "\nControlling the GPIO pins with wiringPi\n";
-//
-//    int pin = 17;
-//
-//    int time = 500;
-//    switch_led(pin);
 }
