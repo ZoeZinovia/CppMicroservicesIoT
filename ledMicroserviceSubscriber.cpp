@@ -6,8 +6,8 @@ extern "C" {
 #include <wiringPi.h>
 }
 #include <csignal>
-#include <iostream>
-using namespace std;
+//#include <iostream>
+//using namespace std;
 
 bool RUNNING = true;
 
