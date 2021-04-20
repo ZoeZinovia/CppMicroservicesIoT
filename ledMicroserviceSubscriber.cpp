@@ -15,8 +15,10 @@ bool RUNNING = true;
 void blink_led(int pin, int time){
     pinMode(pin, OUTPUT);
     digitalWrite(pin, HIGH);
+    std::cout << "ON!";
     delay(time);
     digitalWrite(pin, LOW);
+    std::cout << "OFF!";
     delay(time);
 }
 
