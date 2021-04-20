@@ -2,9 +2,12 @@
 // Created by Shani du Plessis on 20/04/2021.
 //
 
-#include <iostream>
+extern "C" {
 #include <wiringPi.h>
+}
 #include <csignal>
+#include <iostream>
+using namespace std;
 
 bool RUNNING = true;
 
