@@ -70,12 +70,12 @@ void switch_led(int pin){
     }
 }
 
-void exit_program(int s){
-    MQTTClient_unsubscribe(client, TOPIC);
-    MQTTClient_disconnect(client, 10000);
-    MQTTClient_destroy(&client);
-    std::cout << "Program ended\n";
-}
+//void exit_program(int s){
+//    MQTTClient_unsubscribe(client, TOPIC);
+//    MQTTClient_disconnect(client, 10000);
+//    MQTTClient_destroy(&client);
+//    std::cout << "Program ended\n";
+//}
 
 int main(){
 //    std::signal(SIGINT, exit_program);
