@@ -17,10 +17,10 @@ void switch_led(int pin){
     pinMode(pin, OUTPUT);
     if(status == 0) {
         digitalWrite(pin, HIGH);
-        std::cout << "ON!";
+        std::cout << "\nON!\n";
     } else{
         digitalWrite(pin, LOW);
-        std::cout << "OFF!";
+        std::cout << "\nOFF!\n";
     }
 }
 
