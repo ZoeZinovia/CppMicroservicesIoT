@@ -16,10 +16,10 @@ void blink_led(int pin, int time){
     pinMode(pin, OUTPUT);
     digitalWrite(pin, HIGH);
     std::cout << "ON!";
-    delay(time);
-    digitalWrite(pin, LOW);
-    std::cout << "OFF!";
-    delay(time);
+//    delay(time);
+//    digitalWrite(pin, LOW);
+//    std::cout << "OFF!";
+//    delay(time);
 }
 
 void exit_program(int s){
@@ -36,9 +36,7 @@ int main(){
     int pin = 17;
 
     int time = 500;
-    while(RUNNING){
-        blink_led(pin, time);
-    }
+    blink_led(pin, time);
 
     std::cout << "Program ended";
 
