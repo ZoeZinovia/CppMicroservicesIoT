@@ -41,11 +41,11 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     printf("     topic: %s\n", topicName);
     printf("   message: ");
 
-//    payloadptr = message->payload;
-//    for(i=0; i<message->payloadlen; i++)
-//    {
-//        putchar(*payloadptr++);
-//    }
+    payloadptr = (char*)message->payload;
+    for(i=0; i<message->payloadlen; i++)
+    {
+        putchar(*payloadptr++);
+    }
     putchar('\n');
     MQTTClient_freeMessage(&message);
     MQTTClient_free(topicName);
