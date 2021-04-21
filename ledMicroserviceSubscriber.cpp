@@ -8,7 +8,7 @@ extern "C" {
     #include <stdlib.h>
     #include <string.h>
     #include "MQTTClient.h"
-    #include "rapidjson/document.h"
+    #include "include/rapidjson/document.h"
 }
 #include <csignal>
 #include <iostream>
