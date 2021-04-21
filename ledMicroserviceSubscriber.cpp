@@ -49,15 +49,15 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     char* payloadptr;
 
     printf("Message arrived\n");
-    printf("     topic: %s\n", topicName);
-    printf("   message: ");
-
+//    printf("     topic: %s\n", topicName);
+//    printf("   message: ");
     payloadptr = (char*)message->payload;
-    for(i=0; i<message->payloadlen; i++)
-    {
-        putchar(*payloadptr++);
-    }
-    putchar('\n');
+    printf(payloadptr);
+//    for(i=0; i<message->payloadlen; i++)
+//    {
+//        putchar(*payloadptr++);
+//    }
+//    putchar('\n');
 
     switch_led(pin, true);
     MQTTClient_freeMessage(&message);
