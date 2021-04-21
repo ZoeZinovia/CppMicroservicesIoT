@@ -3,4 +3,4 @@ project(cppProjectPublisher)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(cppProjectPublisher main.cpp ledMicroserviceSubscriber.cpp)
+add_executable(cppProjectPublisher main.cpp ledMicroserviceSubscriber.cpp humdityTemperaturePublisher.cpp)
