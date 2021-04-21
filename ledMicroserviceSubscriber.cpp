@@ -126,6 +126,7 @@ int main(){
     do
     {
         session_status = "In progress";
+        std::cout << session_status;
     } while(session_status!="Done");
 
     std::cout << "Executing!!";
