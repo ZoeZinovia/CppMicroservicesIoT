@@ -46,12 +46,13 @@ void delivered(void *context, MQTTClient_deliveryToken dt)
 int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message)
 {
     int i;
-    std::string payloadptr;
+    char* payloadptr;
 
     printf("Message arrived\n");
 //    printf("     topic: %s\n", topicName);
 //    printf("   message: ");
-    payloadptr = (std::string)message->payload;
+    payloadptr = (char*)message->payload;
+    std::string my_message = (std::string)payloadptr;
     printf(payloadptr);
 //    for(i=0; i<message->payloadlen; i++)
 //    {
@@ -59,7 +60,7 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 //    }
 //    putchar('\n');
 
-    switch_led(pin, true);
+    switch_led(pin, false);
     MQTTClient_freeMessage(&message);
     MQTTClient_free(topicName);
     return 1;
