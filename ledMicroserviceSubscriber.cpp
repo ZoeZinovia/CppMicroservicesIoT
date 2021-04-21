@@ -53,7 +53,7 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 //    printf("   message: ");
     payloadptr = (char*)message->payload;
     std::string MQTT_message = (std::string)payloadptr;
-    printf(MQTT_message);
+    std::cout << MQTT_message << "\n";
 //    for(i=0; i<message->payloadlen; i++)
 //    {
 //        putchar(*payloadptr++);
