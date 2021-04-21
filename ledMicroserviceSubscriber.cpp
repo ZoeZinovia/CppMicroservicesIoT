@@ -43,6 +43,12 @@ void delivered(void *context, MQTTClient_deliveryToken dt)
     deliveredtoken = dt;
 }
 
+static rapidjson::Document str_to_json(const char* json) {
+    rapidjson::Document document;
+    document.Parse(json);
+    return std::move(document);
+}
+
 int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message)
 {
     int i;
@@ -52,15 +58,14 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 //    printf("     topic: %s\n", topicName);
 //    printf("   message: ");
     payloadptr = (char*)message->payload;
-    std::string MQTT_message = (std::string)payloadptr;
-    std::cout << MQTT_message << "\n";
-//    for(i=0; i<message->payloadlen; i++)
-//    {
-//        putchar(*payloadptr++);
-//    }
-//    putchar('\n');
-
-    switch_led(pin, true);
+//    std::string MQTT_message = (std::string)payloadptr;
+//    std::cout << MQTT_message << "\n";
+    rapidjson::Document json_doc = str_to_json(payloadptr);
+    if (json_doc.HasMember("LED_1")) {
+        std::string led_status = json_doc["LED_1"].GetString();
+        std::cout << led_status << "\n";
+    }
+    switch_led(pin, false);
     MQTTClient_freeMessage(&message);
     MQTTClient_free(topicName);
     return 1;
