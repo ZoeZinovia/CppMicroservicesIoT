@@ -26,6 +26,8 @@ int pin = 17;
 
 volatile MQTTClient_deliveryToken deliveredtoken;
 
+bool led_status;
+
 void switch_led(int pin, bool value){
     pinMode(pin, OUTPUT);
     if (value) {
@@ -62,14 +64,23 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     std::cout << payloadptr << "\n";
     rapidjson::Document document;
     document.Parse(payloadptr);
-
-    bool led_status = document["LED_1"].GetBool();
-    std::cout << led_status << "\n";
-
-    switch_led(pin, true);
-    MQTTClient_freeMessage(&message);
-    MQTTClient_free(topicName);
-    return 1;
+    if(document.HasMember("Done")){
+        MQTTClient_freeMessage(&message);
+        MQTTClient_free(topicName);
+        return 0;
+    }
+    else {
+        if(document.HasMember("LED_1"))
+        led_status = document["LED_1"].GetBool();
+        if (led_status) {
+            switch_led(pin, true);
+        } else {
+            switch_led(pin, false);
+        }
+        MQTTClient_freeMessage(&message);
+        MQTTClient_free(topicName);
+        return 1;
+    }
 }
 
 void connlost(void *context, char *cause)
