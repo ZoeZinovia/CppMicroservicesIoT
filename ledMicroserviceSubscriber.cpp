@@ -61,11 +61,11 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 //    std::string MQTT_message = (std::string)payloadptr;
 //    std::cout << MQTT_message << "\n";
     rapidjson::Document json_doc = str_to_json(payloadptr);
-//    if (json_doc.HasMember("LED_1")) {
-    std::string led_status = json_doc["LED_1"].GetString();
-    std::cout << led_status << "\n";
-//    }
-    switch_led(pin, false);
+    if (json_doc.HasMember("LED_1")) {
+//        std::string led_status = json_doc["LED_1"].GetString();
+        std::cout << "worked!!" << "\n";
+    }
+    switch_led(pin, true);
     MQTTClient_freeMessage(&message);
     MQTTClient_free(topicName);
     return 1;
