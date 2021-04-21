@@ -8,32 +8,30 @@ extern "C" {
     #include <stdlib.h>
     #include <string.h>
     #include "MQTTClient.h"
+    #include "rapidjson/document.h"
 }
 #include <csignal>
 #include <iostream>
 
-
 #define ADDRESS     "10.35.0.229:1883"
 #define CLIENTID    "ledSubscriber"
 #define TOPIC       "LED"
-#define PAYLOAD     "Hello World!"
 #define QOS         1
-#define TIMEOUT     10000L
 
 //using namespace std;
+using namespace rapidjson;
 
 bool RUNNING = true;
 int pin = 17;
 
 volatile MQTTClient_deliveryToken deliveredtoken;
 
-void switch_led(int pin){
-    int status = digitalRead(pin);
+void switch_led(int pin, bool value){
     pinMode(pin, OUTPUT);
-    if(status == 0) {
+    if (value) {
         digitalWrite(pin, HIGH);
         std::cout << "\nON!\n";
-    } else{
+    } else {
         digitalWrite(pin, LOW);
         std::cout << "\nOFF!\n";
     }
@@ -61,7 +59,7 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     }
     putchar('\n');
 
-    switch_led(pin);
+    switch_led(pin, true);
     MQTTClient_freeMessage(&message);
     MQTTClient_free(topicName);
     return 1;
