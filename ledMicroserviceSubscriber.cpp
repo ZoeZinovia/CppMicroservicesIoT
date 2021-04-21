@@ -52,7 +52,7 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 //    printf("     topic: %s\n", topicName);
 //    printf("   message: ");
     payloadptr = (std::string)message->payload;
-    printf(payloadptr;
+    printf(payloadptr);
 //    for(i=0; i<message->payloadlen; i++)
 //    {
 //        putchar(*payloadptr++);
