@@ -123,11 +123,9 @@ int main(){
            "Press Q<Enter> to quit\n\n", TOPIC, CLIENTID, QOS);
     MQTTClient_subscribe(client, TOPIC, QOS);
 
-    do
-    {
-        session_status = "In progress";
-        std::cout << session_status;
-    } while(session_status!="Done");
+    while(session_status != "Done"){
+    //Do nothing
+    }
 
     std::cout << "Executing!!";
     MQTTClient_unsubscribe(client, TOPIC);
