@@ -27,6 +27,7 @@ int pin = 17;
 volatile MQTTClient_deliveryToken deliveredtoken;
 
 bool led_status;
+std::string session_status;
 
 void switch_led(int pin, bool value){
     pinMode(pin, OUTPUT);
@@ -67,6 +68,7 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     if(document.HasMember("Done")){
         MQTTClient_freeMessage(&message);
         MQTTClient_free(topicName);
+        session_status = "Done";
         return 0;
     }
     else {
@@ -123,8 +125,8 @@ int main(){
 
     do
     {
-        ch = getchar();
-    } while(ch!='Q' && ch != 'q');
+        session_status = "In progress";
+    } while(session_status!="Done");
 
     MQTTClient_unsubscribe(client, TOPIC);
     MQTTClient_disconnect(client, 10000);
