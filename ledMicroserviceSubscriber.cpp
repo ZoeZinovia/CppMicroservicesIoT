@@ -8,10 +8,10 @@ extern "C" {
     #include <stdlib.h>
     #include <string.h>
     #include "MQTTClient.h"
-    #include "include/rapidjson/document.h"
 }
 #include <csignal>
 #include <iostream>
+#include "include/rapidjson/document.h"
 
 #define ADDRESS     "10.35.0.229:1883"
 #define CLIENTID    "ledSubscriber"
