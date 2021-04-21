@@ -52,15 +52,15 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 //    printf("     topic: %s\n", topicName);
 //    printf("   message: ");
     payloadptr = (char*)message->payload;
-    std::string my_message = (std::string)payloadptr;
-    printf(payloadptr);
+    std::string MQTT_message = (std::string)payloadptr;
+    printf(MQTT_message);
 //    for(i=0; i<message->payloadlen; i++)
 //    {
 //        putchar(*payloadptr++);
 //    }
 //    putchar('\n');
 
-    switch_led(pin, false);
+    switch_led(pin, true);
     MQTTClient_freeMessage(&message);
     MQTTClient_free(topicName);
     return 1;
