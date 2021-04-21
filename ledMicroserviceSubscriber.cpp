@@ -63,7 +63,7 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     rapidjson::Document document;
     document.Parse(payloadptr);
 
-    std::string led_status = document["LED_1"].GetBool();
+    bool led_status = document["LED_1"].GetBool();
     std::cout << led_status << "\n";
 
     switch_led(pin, true);
