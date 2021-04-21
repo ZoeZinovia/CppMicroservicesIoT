@@ -63,9 +63,8 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     rapidjson::Document document;
     document.Parse(payloadptr);
 
-//    if (json_doc.HasMember("LED_1")) {
-//    std::string led_status = document["LED_1"].GetString();
-//    std::cout << led_status << "\n";
+    std::string led_status = document["LED_1"].GetBool();
+    std::cout << led_status << "\n";
 
     switch_led(pin, true);
     MQTTClient_freeMessage(&message);
