@@ -64,7 +64,7 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     std::cout << payloadptr << "\n";
     rapidjson::Document document;
     document.Parse(payloadptr);
-    if(!document.isObject()){
+    if(!document.IsObject()){
         std::cout << "help";
     }
     std::cout << "arrived here";
