@@ -61,7 +61,7 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     payloadptr = (char*)message->payload;
     int len = strlen(payloadptr);
     std::cout << payloadptr[len-1] << payloadptr[len-2];
-    if(payloadptr[len-1] == payloadptr[len-2] == '}'){
+    if(&payloadptr[len-1] == &payloadptr[len-2] == '}'){
         payloadptr[len-1] = '\0';
     }
 //    std::string MQTT_message = (std::string)payloadptr;
