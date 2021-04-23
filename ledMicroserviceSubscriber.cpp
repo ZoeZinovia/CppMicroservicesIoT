@@ -60,8 +60,13 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     printf("Message arrived\n");
     std::cout << message << "\n";
     payloadptr = (char*)message->payload;
+    int len = strlen(payloadptr);
+    if(payloadptr[len-1] == payloadptr[len-2] == '}'){
+        payloadptr[len-1] = '\0';
+    }
 //    std::string MQTT_message = (std::string)payloadptr;
     std::cout << payloadptr << "\n";
+
     rapidjson::Document document;
     document.Parse(payloadptr);
     if(!document.IsObject()){
