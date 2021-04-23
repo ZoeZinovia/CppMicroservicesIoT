@@ -64,6 +64,9 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     std::cout << payloadptr << "\n";
     rapidjson::Document document;
     document.Parse(payloadptr);
+    if(!document.isObject()){
+        std::cout << "help";
+    }
     std::cout << "arrived here";
 //    if(document.HasMember("Done")){
 //        MQTTClient_freeMessage(&message);
