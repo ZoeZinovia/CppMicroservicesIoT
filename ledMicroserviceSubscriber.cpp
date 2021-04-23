@@ -58,7 +58,7 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     char* payloadptr;
 
     printf("Message arrived\n");
-    std::cout << payloadptr << "\n";
+    std::cout << message << "\n";
     payloadptr = (char*)message->payload;
 //    std::string MQTT_message = (std::string)payloadptr;
     std::cout << payloadptr << "\n";
