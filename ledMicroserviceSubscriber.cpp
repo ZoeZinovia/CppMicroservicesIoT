@@ -58,9 +58,9 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     char* payloadptr;
 
     printf("Message arrived\n");
-    std::cout << message << "\n";
     payloadptr = (char*)message->payload;
     int len = strlen(payloadptr);
+    std::cout << payloadptr[len-1];
     if(payloadptr[len-1] == payloadptr[len-2] == '}'){
         payloadptr[len-1] = '\0';
     }
