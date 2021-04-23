@@ -71,18 +71,18 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
 //        session_status = "Done";
 //        return 0;
 //    }
-    else {
-        if(document.HasMember("LED_1"))
-        led_status = document["LED_1"].GetBool();
-        if (led_status) {
-            switch_led(pin, true);
-        } else {
-            switch_led(pin, false);
-        }
-        MQTTClient_freeMessage(&message);
-        MQTTClient_free(topicName);
-        return 1;
+//    else {
+    if(document.HasMember("LED_1"))
+    led_status = document["LED_1"].GetBool();
+    if (led_status) {
+        switch_led(pin, true);
+    } else {
+        switch_led(pin, false);
     }
+    MQTTClient_freeMessage(&message);
+    MQTTClient_free(topicName);
+    return 1;
+//    }
 }
 
 void connlost(void *context, char *cause)
