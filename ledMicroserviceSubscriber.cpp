@@ -58,13 +58,11 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     char* payloadptr;
 
     printf("Message arrived\n");
-//    printf("     topic: %s\n", topicName);
-//    printf("   message: ");
+    std::cout << payloadptr << "\n";
     payloadptr = (char*)message->payload;
 //    std::string MQTT_message = (std::string)payloadptr;
     std::cout << payloadptr << "\n";
     rapidjson::Document document;
-    std::cout << payloadptr << "\n";
     document.Parse(payloadptr);
     std::cout << "arrived here";
 //    if(document.HasMember("Done")){
