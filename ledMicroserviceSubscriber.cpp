@@ -65,12 +65,12 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     std::cout << payloadptr << "\n";
     rapidjson::Document document;
     document.Parse(payloadptr);
-    if(document.HasMember("Done")){
-        MQTTClient_freeMessage(&message);
-        MQTTClient_free(topicName);
-        session_status = "Done";
-        return 0;
-    }
+//    if(document.HasMember("Done")){
+//        MQTTClient_freeMessage(&message);
+//        MQTTClient_free(topicName);
+//        session_status = "Done";
+//        return 0;
+//    }
     else {
         if(document.HasMember("LED_1"))
         led_status = document["LED_1"].GetBool();
