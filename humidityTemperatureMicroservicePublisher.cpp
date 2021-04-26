@@ -190,7 +190,7 @@ extern "C" {
 #define ADDRESS     "10.35.0.229:1883"
 #define CLIENTID    "ExampleClientPub"
 #define TOPIC       "MQTT"
-#define PAYLOAD     "Hello World!"
+char* PAYLOAD =      "Hello World!";
 #define QOS         1
 #define TIMEOUT     10000L
 
