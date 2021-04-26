@@ -27,8 +27,8 @@ using namespace rapidjson;
 using namespace std::chrono;
 
 char* ADDRESS;
-char* topic_humidity = "Humidity";
-char* topic_temperature = "Temperature";
+const char* topic_humidity = "Humidity";
+const char* topic_temperature = "Temperature";
 
 int publish_message(std::string str_message, char *topic, MQTTClient client){
     // Initializing components for MQTT publisher
