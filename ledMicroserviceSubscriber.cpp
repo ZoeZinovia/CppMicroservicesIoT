@@ -81,7 +81,7 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
         std::chrono::duration<double> timer = end-start;
         std::ofstream outfile;
         outfile.open("piResultsCpp.txt", std::ios_base::app); // append instead of overwrite
-        outfile << "Timer: " << timer.count() << "\n";
+        outfile << "LED subscriber runtime = " << timer.count() << "\n";
         return 0;
     } else{
         if(document.HasMember("LED_1")) {
