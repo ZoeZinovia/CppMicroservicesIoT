@@ -41,6 +41,7 @@ int publish_message(std::string str_message, const char *topic, MQTTClient clien
 
     // Updating values of pubmsg object
     pubmsg.payload = pub_message;
+    std::cout << pubmsg.payload << "\n";
     //pubmsg.payloadlen = (int) strlen(*pubmsg.payload);
     pubmsg.qos = QOS;
     pubmsg.retained = 0;
@@ -90,8 +91,8 @@ int main(int argc, char* argv[])
     double humidity = 0;
     double temperature = 0;
     int count = 0;
-    while(count <= 20) {
-        if(count == 20){
+    while(count <= 2) {
+        if(count == 2){
             rapidjson::Document document_done;
             document_done.SetObject();
             rapidjson::Document::AllocatorType& allocator1 = document_done.GetAllocator();
@@ -125,7 +126,7 @@ int main(int argc, char* argv[])
                 std::cerr << exc.what();
             }
         }
-        count = count + 1;
+        count = count + 1;t
     }
     MQTTClient_disconnect(client, 10000);
     MQTTClient_destroy(&client);
