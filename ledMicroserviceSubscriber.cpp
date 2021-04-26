@@ -12,17 +12,21 @@ extern "C" {
 #include <csignal>
 #include <iostream>
 #include "include/rapidjson/document.h"
+#include <chrono>
+
+//using namespace std;
+using namespace rapidjson;
+using namespace std::chrono;
 
 #define ADDRESS     "10.35.0.229:1883"
 #define CLIENTID    "ledSubscriber"
 #define TOPIC       "LED"
 #define QOS         1
 
-//using namespace std;
-using namespace rapidjson;
-
 bool RUNNING = true;
 int pin;
+
+auto start = high_resolution_clock::now();
 
 volatile MQTTClient_deliveryToken deliveredtoken;
 
@@ -72,6 +76,9 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
         MQTTClient_freeMessage(&message);
         MQTTClient_free(topicName);
         session_status = "Done";
+        auto end = high_resolution_clock::now();
+        auto timer = end - start;
+        std::cout << "Timer: " << timer.count() << "\n";
         return 0;
     } else{
         if(document.HasMember("LED_1")) {
