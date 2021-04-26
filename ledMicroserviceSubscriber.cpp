@@ -24,15 +24,12 @@ using namespace std::chrono;
 #define TOPIC       "LED"
 #define QOS         1
 
-bool RUNNING = true;
 int pin;
-
-auto start = high_resolution_clock::now();
-
 volatile MQTTClient_deliveryToken deliveredtoken;
-
 bool led_status;
 std::string session_status;
+
+auto start = high_resolution_clock::now();
 
 void switch_led(int pin, bool value){
     pinMode(pin, OUTPUT);
