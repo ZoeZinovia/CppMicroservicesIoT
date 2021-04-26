@@ -27,10 +27,14 @@ using namespace std::chrono;
 
 char* ADDRESS;
 
-int publish_message(std::string pub_message, std::string topic, MQTTClient client){
+int publish_message(std::string str_message, std::string topic, MQTTClient client){
     // Initializing components for MQTT publisher
     MQTTClient_message pubmsg = MQTTClient_message_initializer;
     MQTTClient_deliveryToken token;
+
+    // Convert string to char*
+    char pub_message[str_message.length() + 1];
+    strcpy(pub_message, str_message.c_str());
 
     // Updating values of pubmsg object
     pubmsg.payload = pub_message;
