@@ -27,7 +27,7 @@ int pin;
 volatile MQTTClient_deliveryToken deliveredtoken;
 bool led_status;
 std::string session_status;
-std::string ADDRESS;
+char* ADDRESS;
 
 auto start = high_resolution_clock::now();
 
@@ -101,7 +101,6 @@ void connlost(void *context, char *cause)
 int main(int argc, char *argv[]){
 
     ADDRESS = argv[0];
-    ADDRESS.append(":1883");
     wiringPiSetupGpio();
 
     MQTTClient client;
