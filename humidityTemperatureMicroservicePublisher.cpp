@@ -27,6 +27,8 @@ using namespace rapidjson;
 using namespace std::chrono;
 
 char* ADDRESS;
+char* topic_humidity = "Humidity";
+char* topic_temperature = "Temperature";
 
 int publish_message(std::string str_message, char *topic, MQTTClient client){
     // Initializing components for MQTT publisher
@@ -95,8 +97,8 @@ int main(int argc, char* argv[])
             rapidjson::Document::AllocatorType& allocator1 = document_done.GetAllocator();
             document_done.AddMember("Done", true, allocator1);
             std::string pub_message_done = json_to_string(document_done);
-            rc = publish_message(pub_message_done, TOPIC_HUMIDITY, client);
-            rc = publish_message(pub_message_done, TOPIC_TEMP, client);
+            rc = publish_message(pub_message_done, topic_humidity, client);
+            rc = publish_message(pub_message_done, topic_temperature, client);
         }
 
         else {
