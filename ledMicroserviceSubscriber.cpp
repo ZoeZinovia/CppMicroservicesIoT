@@ -100,8 +100,12 @@ void connlost(void *context, char *cause)
 
 int main(int argc, char *argv[]){
 
-    ADDRESS = argv[1];
-//    std::cout << "Printing: " << argv[1] << "\n";
+    std::string input = argv[1];
+    input.append(":1883");
+    char char_input[input.length() + 1];
+    strcpy(char_input, input.c_str());
+    ADDRESS = char_input;
+    std::cout << "Printing: " << input << "\n";
     wiringPiSetupGpio();
 
     MQTTClient client;
