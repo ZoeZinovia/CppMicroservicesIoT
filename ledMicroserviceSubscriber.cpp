@@ -135,8 +135,8 @@ int main(){
 
     std::cout << "Executing!!";
 //    MQTTClient_unsubscribe(client, TOPIC);
-//    MQTTClient_disconnect(client, 10000);
-//    MQTTClient_destroy(&client);
+    MQTTClient_disconnect(client, 10000);
+    MQTTClient_destroy(&client);
     std::cout << "Done executing!!";
     return rc;
 }
