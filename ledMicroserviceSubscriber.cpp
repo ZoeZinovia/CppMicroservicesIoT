@@ -19,7 +19,6 @@ extern "C" {
 using namespace rapidjson;
 using namespace std::chrono;
 
-#define ADDRESS     "10.35.0.229:1883"
 #define CLIENTID    "ledSubscriber"
 #define TOPIC       "LED"
 #define QOS         1
@@ -28,6 +27,7 @@ int pin;
 volatile MQTTClient_deliveryToken deliveredtoken;
 bool led_status;
 std::string session_status;
+std::string ADDRESS;
 
 auto start = high_resolution_clock::now();
 
@@ -98,8 +98,10 @@ void connlost(void *context, char *cause)
     printf("     cause: %s\n", cause);
 }
 
-int main(){
-//    std::signal(SIGINT, exit_program);
+int main(int argc, char *argv[]){
+
+    ADDRESS = argv[0];
+    ADDRESS.append(":1883");
     wiringPiSetupGpio();
 
     MQTTClient client;
