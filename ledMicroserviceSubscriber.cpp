@@ -123,10 +123,14 @@ int main(){
     printf("Subscribing to topic %s\nfor client %s using QoS%d\n\n"
            "Press Q<Enter> to quit\n\n", TOPIC, CLIENTID, QOS);
     MQTTClient_subscribe(client, TOPIC, QOS);
-
-    while(session_status != "Done"){
-    //Do nothing
-    }
+//
+//    while(session_status != "Done"){
+//    //Do nothing
+//    }
+    do
+    {
+        ch = getchar();
+    } while(ch!='Q' && ch != 'q');
 
     std::cout << "Executing!!";
     MQTTClient_unsubscribe(client, TOPIC);
