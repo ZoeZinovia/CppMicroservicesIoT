@@ -77,8 +77,8 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
         MQTTClient_free(topicName);
         session_status = "Done";
         auto end = high_resolution_clock::now();
-        auto timer = end - start;
-        std::cout << "Timer: " << timer.count()/1000000 << "\n";
+        std::chrono::duration<double> timer = end-start;
+        std::cout << "Timer: " << timer.count() << "\n";
         return 0;
     } else{
         if(document.HasMember("LED_1")) {
