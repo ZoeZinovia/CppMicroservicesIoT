@@ -22,6 +22,7 @@ extern "C" {
 #define CLIENTID            "HumTempPublisher"
 #define QOS                 1
 #define TIMEOUT             10000L
+#define PAYLOAD             '{"Hello": "Hey"}'
 
 using namespace rapidjson;
 using namespace std::chrono;
@@ -39,7 +40,7 @@ int publish_message(std::string str_message, const char *topic, MQTTClient clien
     //char* pub_message = "hello";
 
     // Updating values of pubmsg object
-    pubmsg.payload = 'gello';
+    pubmsg.payload = PAYLOAD;
     std::cout << "Message: " << pub_message << "\n";
     //pubmsg.payloadlen = (int) strlen(*pubmsg.payload);
     pubmsg.qos = QOS;
