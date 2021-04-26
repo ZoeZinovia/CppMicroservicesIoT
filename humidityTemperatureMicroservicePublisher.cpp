@@ -118,6 +118,7 @@ int main(int argc, char* argv[])
             document_temperature.AddMember("Unit", "C", allocator3);
             try {
                 std::string pub_message_humidity = json_to_string(document_humidity);
+                std::cout << pub_message_humidity << "\n";
                 rc = publish_message(pub_message_humidity, "Humidity", client);
                 std::string pub_message_temperature = json_to_string(document_temperature);
                 rc = publish_message(pub_message_temperature, "Temperature", client);
@@ -126,6 +127,7 @@ int main(int argc, char* argv[])
                 std::cerr << exc.what();
             }
         }
+
         count = count + 1;
     }
     MQTTClient_disconnect(client, 10000);
