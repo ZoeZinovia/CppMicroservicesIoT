@@ -31,7 +31,6 @@ std::string session_status;
 
 void switch_led(int pin, bool value){
     pinMode(pin, OUTPUT);
-    std::cout << value;
     if (value) {
         digitalWrite(pin, HIGH);
         std::cout << "\nON!\n";
@@ -78,7 +77,6 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
         if(document.HasMember("LED_1")) {
             led_status = (bool) document["LED_1"].GetBool();
             pin = document["GPIO"].GetInt();
-            std::cout << led_status << "\n";
             switch_led(pin, led_status);
         }
         MQTTClient_freeMessage(&message);
@@ -121,22 +119,15 @@ int main(){
         printf("Failed to connect, return code %d\n", rc);
         exit(EXIT_FAILURE);
     }
-    printf("Subscribing to topic %s\nfor client %s using QoS%d\n\n"
-           "Press Q<Enter> to quit\n\n", TOPIC, CLIENTID, QOS);
     MQTTClient_subscribe(client, TOPIC, QOS);
 
     while(session_status != "Done"){
     //Do nothing
     }
-//    do
-//    {
-//        ch = getchar();
-//    } while(ch!='Q' && ch != 'q');
 
-    std::cout << "Executing!!";
 //    MQTTClient_unsubscribe(client, TOPIC);
     MQTTClient_disconnect(client, 10000);
     MQTTClient_destroy(&client);
-    std::cout << "Done executing!!";
+    std::cout << "Led subscriber finished";
     return rc;
 }
