@@ -126,6 +126,9 @@ int main(){
         printf("Failed to connect, return code %d\n", rc);
         exit(EXIT_FAILURE);
     }
+    else{
+        printf("Connected. Result code %d\n", rc);
+    }
     MQTTClient_subscribe(client, TOPIC, QOS);
 
     while(session_status != "Done"){
