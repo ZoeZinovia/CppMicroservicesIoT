@@ -22,7 +22,7 @@ extern "C" {
 using namespace rapidjson;
 
 bool RUNNING = true;
-int pin = 17;
+int pin;
 
 volatile MQTTClient_deliveryToken deliveredtoken;
 
@@ -128,6 +128,7 @@ int main(){
 //    MQTTClient_unsubscribe(client, TOPIC);
     MQTTClient_disconnect(client, 10000);
     MQTTClient_destroy(&client);
-    std::cout << "Led subscriber finished";
+    switch_led(pin, false);
+    std::cout << "Led subscriber finished\n";
     return rc;
 }
