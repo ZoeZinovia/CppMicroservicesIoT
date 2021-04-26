@@ -22,7 +22,7 @@ extern "C" {
 #define CLIENTID            "HumTempPublisher"
 #define QOS                 1
 #define TIMEOUT             10000L
-#define PAYLOAD             '{"Hello": "Hey"}'
+#define PAYLOAD             "Hello"
 
 using namespace rapidjson;
 using namespace std::chrono;
