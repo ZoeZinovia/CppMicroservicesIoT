@@ -30,7 +30,7 @@ char* ADDRESS;
 const char* topic_humidity = "Humidity";
 const char* topic_temperature = "Temperature";
 
-int publish_message(std::string str_message, char *topic, MQTTClient client){
+int publish_message(std::string str_message, const char *topic, MQTTClient client){
     // Initializing components for MQTT publisher
     MQTTClient_message pubmsg = MQTTClient_message_initializer;
     MQTTClient_deliveryToken token;
