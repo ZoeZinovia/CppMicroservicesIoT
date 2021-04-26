@@ -78,7 +78,7 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
             led_status = (bool) document["LED_1"].GetBool();
             pin = document["GPIO"].GetInt();
             std::cout << led_status << "\n";
-            switch_led(17, led_status);
+            switch_led(pin, led_status);
         }
         MQTTClient_freeMessage(&message);
         MQTTClient_free(topicName);
