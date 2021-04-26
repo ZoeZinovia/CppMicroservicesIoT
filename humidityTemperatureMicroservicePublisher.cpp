@@ -37,8 +37,8 @@ int publish_message(std::string str_message, const char *topic, MQTTClient clien
     MQTTClient_message pubmsg = MQTTClient_message_initializer;
     MQTTClient_deliveryToken token;
 
-    char *message = new char[PAYLOAD.length() + 1];
-    strcpy(message, PAYLOAD.c_str());
+    char *message = new char[str_message.length() + 1];
+    strcpy(message, str_message.c_str());
     pubmsg.payload = message;
     pubmsg.payloadlen = (int)std::strlen(message);
     pubmsg.qos = QOS;
