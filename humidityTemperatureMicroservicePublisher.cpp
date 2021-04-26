@@ -119,7 +119,7 @@ int main(int argc, char* argv[])
             rapidjson::Document document_temperature;
             document_temperature.SetObject();
             rapidjson::Document::AllocatorType &allocator3 = document_temperature.GetAllocator();
-            document_temperature.AddMember("Temperature", 12, allocator3);
+            document_temperature.AddMember("Temp", 12, allocator3);
             document_temperature.AddMember("Unit", "C", allocator3);
             try {
                 std::string pub_message_humidity = json_to_string(document_humidity);
