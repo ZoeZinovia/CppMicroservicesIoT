@@ -41,7 +41,7 @@ int publish_message(std::string str_message, const char *topic, MQTTClient clien
 
     // Updating values of pubmsg object
     pubmsg.payload = pub_message;
-    std::cout << pubmsg.payload << "\n";
+    std::cout << pub_message << "\n";
     //pubmsg.payloadlen = (int) strlen(*pubmsg.payload);
     pubmsg.qos = QOS;
     pubmsg.retained = 0;
@@ -99,7 +99,6 @@ int main(int argc, char* argv[])
             document_done.AddMember("Done", true, allocator1);
             std::string pub_message_done = json_to_string(document_done);
             rc = publish_message(pub_message_done, topic_humidity, client);
-            std::cout << pub_message_done << "\n";
             rc = publish_message(pub_message_done, topic_temperature, client);
         }
 
@@ -119,10 +118,8 @@ int main(int argc, char* argv[])
             document_temperature.AddMember("Unit", "C", allocator3);
             try {
                 std::string pub_message_humidity = json_to_string(document_humidity);
-                std::cout << pub_message_humidity << "\n";
                 rc = publish_message(pub_message_humidity, "Humidity", client);
                 std::string pub_message_temperature = json_to_string(document_temperature);
-                std::cout << pub_message_temperature << "\n";
                 rc = publish_message(pub_message_temperature, "Temperature", client);
             } catch (const std::exception &exc) {
                 // catch anything thrown within try block that derives from std::exception
