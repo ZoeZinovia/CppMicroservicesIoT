@@ -38,7 +38,7 @@ int publish_message(std::string str_message, std::string topic, MQTTClient clien
 
     // Updating values of pubmsg object
     pubmsg.payload = pub_message;
-    pubmsg.payloadlen = (int) strlen(pubmsg.payload);
+    pubmsg.payloadlen = (int) strlen(*pubmsg.payload);
     pubmsg.qos = QOS;
     pubmsg.retained = 0;
 
