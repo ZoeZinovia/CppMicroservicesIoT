@@ -29,9 +29,9 @@ bool led_status;
 std::string session_status;
 char* ADDRESS;
 
-auto start = high_resolution_clock::now();
+auto start = high_resolution_clock::now(); // Starting timer
 
-void switch_led(int pin, bool value){
+void switch_led(int pin, bool value){ // Function to switch led on and off
     pinMode(pin, OUTPUT);
     if (value) {
         digitalWrite(pin, HIGH);
@@ -42,34 +42,34 @@ void switch_led(int pin, bool value){
     }
 }
 
-void delivered(void *context, MQTTClient_deliveryToken dt)
+void delivered(void *context, MQTTClient_deliveryToken dt) // Required callback
 {
     printf("Message with token value %d delivery confirmed\n", dt);
     deliveredtoken = dt;
 }
 
-static rapidjson::Document str_to_json(const char* json) {
-    rapidjson::Document document;
-    document.Parse(json);
-    return std::move(document);
-}
+//static rapidjson::Document str_to_json(const char* json) { // Function for converting string to Json document
+//    rapidjson::Document document;
+//    document.Parse(json);
+//    return std::move(document);
+//}
 
-int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message)
+int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message) // Callback function for when an MQTT message arrives from the broker
 {
     int i;
-    char* payloadptr;
+    char* payloadptr; //payload
 
     printf("Message arrived\n");
     payloadptr = (char*)message->payload;
     int len = strlen(payloadptr);
-    if(payloadptr[len-2] == '}'){
+    if(payloadptr[len-2] == '}'){ // Fix for a bug in RapidJson
         payloadptr[len-1] = '\0';
     }
 
     std::cout << payloadptr << "\n";
 
     rapidjson::Document document;
-    document.Parse(payloadptr);
+    document.Parse(payloadptr); //Parse string to JSON
     if(document.HasMember("Done")){
         MQTTClient_freeMessage(&message);
         MQTTClient_free(topicName);
@@ -99,7 +99,6 @@ void connlost(void *context, char *cause)
 }
 
 int main(int argc, char *argv[]){
-
     std::string input = argv[1];
     input.append(":1883");
     char char_input[input.length() + 1];
