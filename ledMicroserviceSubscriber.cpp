@@ -31,6 +31,7 @@ std::string session_status;
 
 void switch_led(int pin, bool value){
     pinMode(pin, OUTPUT);
+    std::cout << value;
     if (value) {
         digitalWrite(pin, HIGH);
         std::cout << "\nON!\n";
