@@ -63,33 +63,26 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     if(payloadptr[len-2] == '}'){
         payloadptr[len-1] = '\0';
     }
-//    std::string MQTT_message = (std::string)payloadptr;
+
     std::cout << payloadptr << "\n";
 
     rapidjson::Document document;
     document.Parse(payloadptr);
-    if(!document.IsObject()){
-        std::cout << "help";
+    if(document.HasMember("Done")){
+        MQTTClient_freeMessage(&message);
+        MQTTClient_free(topicName);
+        session_status = "Done";
+        return 0;
+    } else{
+        if(document.HasMember("LED_1")) {
+            led_status = document["LED_1"].GetBool();
+            pin = document["GPIO"].GetInt();
+            switch_led(pin, led_status);
+        }
+        MQTTClient_freeMessage(&message);
+        MQTTClient_free(topicName);
+        return 1;
     }
-    std::cout << "arrived here";
-//    if(document.HasMember("Done")){
-//        MQTTClient_freeMessage(&message);
-//        MQTTClient_free(topicName);
-//        session_status = "Done";
-//        return 0;
-//    }
-//    else {
-    if(document.HasMember("LED_1"))
-    led_status = document["LED_1"].GetBool();
-    if (led_status) {
-        switch_led(pin, true);
-    } else {
-        switch_led(pin, false);
-    }
-    MQTTClient_freeMessage(&message);
-    MQTTClient_free(topicName);
-    return 1;
-//    }
 }
 
 void connlost(void *context, char *cause)
@@ -130,14 +123,9 @@ int main(){
            "Press Q<Enter> to quit\n\n", TOPIC, CLIENTID, QOS);
     MQTTClient_subscribe(client, TOPIC, QOS);
 
-//    while(session_status != "Done"){
-//    //Do nothing
-//    }
-
-    do
-    {
-        ch = getchar();
-    } while(ch!='Q' && ch != 'q');
+    while(session_status != "Done"){
+    //Do nothing
+    }
 
     std::cout << "Executing!!";
     MQTTClient_unsubscribe(client, TOPIC);
