@@ -20,7 +20,8 @@ extern "C" {
 #include <typeinfo>
 
 #define CLIENTID    "ExampleClientPub"
-#define TOPIC       "MQTT"
+#define TOPIC_T       "Temperature"
+#define TOPIC_H       "Humidity"
 #define QOS         1
 #define TIMEOUT     10000L
 
@@ -102,8 +103,8 @@ int main(int argc, char* argv[])
             rapidjson::Document::AllocatorType& allocator1 = document_done.GetAllocator();
             document_done.AddMember("Done", true, allocator1);
             std::string pub_message_done = json_to_string(document_done);
-            rc = publish_message(pub_message_done, TOPIC, client);
-            rc = publish_message(pub_message_done, TOPIC, client);
+            rc = publish_message(pub_message_done, TOPIC_T, client);
+            rc = publish_message(pub_message_done, TOPIC_H, client);
         }
 
         else {
@@ -122,9 +123,9 @@ int main(int argc, char* argv[])
             document_temperature.AddMember("Unit", "C", allocator3);
             try {
                 std::string pub_message_humidity = json_to_string(document_humidity);
-                rc = publish_message(pub_message_humidity, TOPIC, client);
+                rc = publish_message(pub_message_humidity, TOPIC_H, client);
                 std::string pub_message_temperature = json_to_string(document_temperature);
-                rc = publish_message(pub_message_temperature, TOPIC, client);
+                rc = publish_message(pub_message_temperature, TOPIC_T, client);
             } catch (const std::exception &exc) {
                 // catch anything thrown within try block that derives from std::exception
                 std::cerr << exc.what();
