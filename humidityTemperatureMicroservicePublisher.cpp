@@ -223,8 +223,10 @@ int main(int argc, char* argv[])
         exit(EXIT_FAILURE);
     }
 
-    pubmsg.payload = PAYLOAD;
-//    pubmsg.payloadlen = (int)std::strlen(PAYLOAD);
+    char *message = new char[PAYLOAD.length() + 1];
+    strcpy(message, PAYLOAD.c_str());
+    pubmsg.payload = message;
+    pubmsg.payloadlen = (int)std::strlen(message);
     pubmsg.qos = QOS;
     pubmsg.retained = 0;
     MQTTClient_publishMessage(client, TOPIC, &pubmsg, &token);
