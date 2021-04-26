@@ -36,7 +36,7 @@ int publish_message(std::string str_message, const char *topic, MQTTClient clien
     MQTTClient_deliveryToken token;
 
     // Convert string to char*
-    const char* pub_message = "hello"
+    const char* pub_message = "hello";
 
     // Updating values of pubmsg object
     pubmsg.payload = pub_message;
