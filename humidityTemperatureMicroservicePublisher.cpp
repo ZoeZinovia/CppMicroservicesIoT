@@ -18,10 +18,11 @@ extern "C" {
 #include <chrono>
 #include <fstream>
 
-#define CLIENTID    "HumTempPublisher"
-#define QOS         1
-#define TIMEOUT     10000L
-
+#define CLIENTID            "HumTempPublisher"
+#define QOS                 1
+#define TIMEOUT             10000L
+#define TOPIC_HUMIDITY      "Humidity"
+#define TOPIC_TEMP          "Temperature"
 using namespace rapidjson;
 using namespace std::chrono;
 
@@ -94,8 +95,8 @@ int main(int argc, char* argv[])
             rapidjson::Document::AllocatorType& allocator1 = document_done.GetAllocator();
             document_done.AddMember("Done", true, allocator1);
             std::string pub_message_done = json_to_string(document_done);
-            rc = publish_message(pub_message_done, "Humidity", client);
-            rc = publish_message(pub_message_done, "Temperature", client);
+            rc = publish_message(pub_message_done, TOPIC_HUMIDITY, client);
+            rc = publish_message(pub_message_done, TOPIC_TEMP, client);
         }
 
         else {
