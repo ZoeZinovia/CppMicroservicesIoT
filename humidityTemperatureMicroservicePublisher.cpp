@@ -126,7 +126,7 @@ int main(int argc, char* argv[])
                 std::cerr << exc.what();
             }
         }
-        count = count + 1;t
+        count = count + 1;
     }
     MQTTClient_disconnect(client, 10000);
     MQTTClient_destroy(&client);
