@@ -48,12 +48,6 @@ void delivered(void *context, MQTTClient_deliveryToken dt) // Required callback
     deliveredtoken = dt;
 }
 
-//static rapidjson::Document str_to_json(const char* json) { // Function for converting string to Json document
-//    rapidjson::Document document;
-//    document.Parse(json);
-//    return std::move(document);
-//}
-
 int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message) // Callback function for when an MQTT message arrives from the broker
 {
     int i;
@@ -69,19 +63,19 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     std::cout << payloadptr << "\n";
 
     rapidjson::Document document;
-    document.Parse(payloadptr); //Parse string to JSON
-    if(document.HasMember("Done")){
+    document.Parse(payloadptr); // Parse string to JSON
+    if(document.HasMember("Done")){ // Done message is received from publisher when communication ends. This triggers the end of the session and the end of the timer
         MQTTClient_freeMessage(&message);
         MQTTClient_free(topicName);
         session_status = "Done";
         auto end = high_resolution_clock::now();
         std::chrono::duration<double> timer = end-start;
         std::ofstream outfile;
-        outfile.open("piResultsCpp.txt", std::ios_base::app); // append instead of overwrite
+        outfile.open("piResultsCpp.txt", std::ios_base::app); // append to the results text file
         outfile << "LED subscriber runtime = " << timer.count() << "\n";
         return 0;
     } else{
-        if(document.HasMember("LED_1")) {
+        if(document.HasMember("LED_1")) { // If the message is about the LED status, the LED is switch accordingly
             led_status = (bool) document["LED_1"].GetBool();
             pin = document["GPIO"].GetInt();
             switch_led(pin, led_status);
@@ -92,19 +86,19 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     }
 }
 
-void connlost(void *context, char *cause)
+void connlost(void *context, char *cause) // Required callback for lost connection
 {
     printf("\nConnection lost\n");
     printf("     cause: %s\n", cause);
 }
 
 int main(int argc, char *argv[]){
-    std::string input = argv[1];
-    input.append(":1883");
+    std::string input = argv[1]; // IP address as command line argument to avoid hard coding
+    input.append(":1883"); // Append MQTT port
     char char_input[input.length() + 1];
     strcpy(char_input, input.c_str());
     ADDRESS = char_input;
-    std::cout << "Printing: " << input << "\n";
+
     wiringPiSetupGpio();
 
     MQTTClient client;
@@ -119,17 +113,17 @@ int main(int argc, char *argv[]){
 
     MQTTClient_setCallbacks(client, NULL, connlost, msgarrvd, delivered);
 
-    if ((rc = MQTTClient_connect(client, &conn_opts)) != MQTTCLIENT_SUCCESS)
+    if ((rc = MQTTClient_connect(client, &conn_opts)) != MQTTCLIENT_SUCCESS) //Unsuccessful connection
     {
         printf("Failed to connect, return code %d\n", rc);
         exit(EXIT_FAILURE);
     }
-    else{
+    else{ // Successful connection
         printf("Connected. Result code %d\n", rc);
     }
     MQTTClient_subscribe(client, TOPIC, QOS);
 
-    while(session_status != "Done"){
+    while(session_status != "Done"){ // Continue listening for messages until end of session
     //Do nothing
     }
 
