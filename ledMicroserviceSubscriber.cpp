@@ -75,7 +75,7 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
         return 0;
     } else{
         if(document.HasMember("LED_1")) {
-            led_status = document["LED_1"].GetBool();
+            led_status = (bool) document["LED_1"].GetBool();
             pin = document["GPIO"].GetInt();
             std::cout << led_status << "\n";
             switch_led(pin, led_status);
