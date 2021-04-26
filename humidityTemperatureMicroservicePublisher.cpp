@@ -41,7 +41,7 @@ int publish_message(std::string str_message, const char *topic, MQTTClient clien
 
     // Updating values of pubmsg object
     pubmsg.payload = pub_message;
-    std::cout << pub_message << "\n";
+    std::cout << "Message: " << pub_message << "\n";
     //pubmsg.payloadlen = (int) strlen(*pubmsg.payload);
     pubmsg.qos = QOS;
     pubmsg.retained = 0;
