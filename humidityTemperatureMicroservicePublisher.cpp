@@ -17,12 +17,12 @@ extern "C" {
 #include "include/rapidjson/writer.h"
 #include <chrono>
 #include <fstream>
+#include <typeinfo>
 
 #define CLIENTID            "HumTempPublisher"
 #define QOS                 1
 #define TIMEOUT             10000L
-#define TOPIC_HUMIDITY      "Humidity"
-#define TOPIC_TEMP          "Temperature"
+
 using namespace rapidjson;
 using namespace std::chrono;
 
@@ -36,8 +36,7 @@ int publish_message(std::string str_message, const char *topic, MQTTClient clien
     MQTTClient_deliveryToken token;
 
     // Convert string to char*
-    char pub_message[str_message.length() + 1];
-    strcpy(pub_message, str_message.c_str());
+    char* pub_message = (char*)'{"hello": "there"}';
 
     // Updating values of pubmsg object
     pubmsg.payload = pub_message;
