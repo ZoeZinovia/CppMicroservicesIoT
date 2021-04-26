@@ -13,6 +13,7 @@ extern "C" {
 #include <iostream>
 #include "include/rapidjson/document.h"
 #include <chrono>
+#include <fstream>
 
 //using namespace std;
 using namespace rapidjson;
@@ -78,7 +79,9 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
         session_status = "Done";
         auto end = high_resolution_clock::now();
         std::chrono::duration<double> timer = end-start;
-        std::cout << "Timer: " << timer.count() << "\n";
+        std::ofstream outfile;
+        outfile.open("piResultsCpp.txt", std::ios_base::app); // append instead of overwrite
+        outfile << "Timer: " << timer.count() << "\n";
         return 0;
     } else{
         if(document.HasMember("LED_1")) {
@@ -97,13 +100,6 @@ void connlost(void *context, char *cause)
     printf("\nConnection lost\n");
     printf("     cause: %s\n", cause);
 }
-
-//void exit_program(int s){
-//    MQTTClient_unsubscribe(client, TOPIC);
-//    MQTTClient_disconnect(client, 10000);
-//    MQTTClient_destroy(&client);
-//    std::cout << "Program ended\n";
-//}
 
 int main(){
 //    std::signal(SIGINT, exit_program);
