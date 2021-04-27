@@ -57,10 +57,7 @@ int publish_message(std::string str_message, const char *topic, MQTTClient clien
     pubmsg.retained = 0;
 
     MQTTClient_publishMessage(client, topic, &pubmsg, &token); // Publish the message
-    printf("Waiting for up to %d seconds for publication of message.\n",
-           (int) (TIMEOUT / 1000));
     int rc = MQTTClient_waitForCompletion(client, token, TIMEOUT);
-    printf("Message with delivery token %d delivered\n", token);
     return rc;
 }
 
@@ -73,26 +70,26 @@ std::string json_to_string(const rapidjson::Document& doc){
     return std::string(string_buffer.GetString());
 }
 
+// Reading of the dht11 is rather complex in C/C++. See this site that explains how readings are made: http://www.uugear.com/portfolio/dht11-humidity-temperature-sensor-module/
 int* read_dht11_dat()
 {
     uint8_t laststate	= HIGH;
     uint8_t counter		= 0;
     uint8_t j		= 0, i;
-    float	C; /* Celcius */
 
     dht11_dat[0] = dht11_dat[1] = dht11_dat[2] = dht11_dat[3] = dht11_dat[4] = 0;
 
-    /* pull pin down for 18 milliseconds */
+    // pull pin down for 18 milliseconds. This is called “Start Signal” and it is to ensure DHT11 has detected the signal from MCU.
     pinMode( DHTPIN, OUTPUT );
     digitalWrite( DHTPIN, LOW );
     delay( 18 );
-    /* then pull it up for 40 microseconds */
+    // Then MCU will pull up DATA pin for 40us to wait for DHT11’s response.
     digitalWrite( DHTPIN, HIGH );
     delayMicroseconds( 40 );
-    /* prepare to read the pin */
+    // Prepare to read the pin
     pinMode( DHTPIN, INPUT );
 
-    /* detect change and read data */
+    // Detect change and read data
     for ( i = 0; i < MAXTIMINGS; i++ )
     {
         counter = 0;
@@ -110,10 +107,10 @@ int* read_dht11_dat()
         if ( counter == 255 )
             break;
 
-        /* ignore first 3 transitions */
+        // Ignore first 3 transitions
         if ( (i >= 4) && (i % 2 == 0) )
         {
-            /* shove each bit into the storage bytes */
+            // Add each bit into the storage bytes
             dht11_dat[j / 8] <<= 1;
             if ( counter > 16 )
                 dht11_dat[j / 8] |= 1;
@@ -121,16 +118,13 @@ int* read_dht11_dat()
         }
     }
 
-    /*
-     * check we read 40 bits (8bit x 5 ) + verify checksum in the last byte
-     * print it out if data is good
-     */
+    // Check that 40 bits (8bit x 5 ) were read + verify checksum in the last byte
     if ( (j >= 40) && (dht11_dat[4] == ( (dht11_dat[0] + dht11_dat[1] + dht11_dat[2] + dht11_dat[3]) & 0xFF) ) )
     {
-        return dht11_dat;
+        return dht11_dat; // If all ok, return pointer to the data array
     } else  {
         dht11_dat[0] = -1;
-        return dht11_dat;
+        return dht11_dat; //If there was an error, set first array element to -1 as flag to main function
     }
 }
 
@@ -160,19 +154,20 @@ int main(int argc, char* argv[])
         printf("Connected. Result code %d\n", rc);
     }
 
-    wiringPiSetup();
+    wiringPiSetup(); // Required for wiringPi
+
     double temperature = 0;
     double humidity = 0;
     int *readings = read_dht11_dat();
     while(readings[0] == -1){
-        readings = read_dht11_dat();
+        readings = read_dht11_dat(); // Errors frequently occur when reading dht sensor. Keep reading until values are returned.
     }
     humidity = readings[0] + (readings[1]/10);
     temperature = readings[2] + (readings[3]/10);
 
     int count = 0;
-    while(count <= 2) {
-        if(count == 2){
+    while(count <= 20) {
+        if(count == 20){
             rapidjson::Document document_done;
             document_done.SetObject();
             rapidjson::Document::AllocatorType& allocator1 = document_done.GetAllocator();
@@ -208,9 +203,11 @@ int main(int argc, char* argv[])
 
         count = count + 1;
     }
+
+    // End of loop. Stop MQTT and calculate runtime
     MQTTClient_disconnect(client, 10000);
     MQTTClient_destroy(&client);
-    auto end = high_resolution_clock::now(); // Starting timer
+    auto end = high_resolution_clock::now();
     std::chrono::duration<double> timer = end-start;
     std::ofstream outfile;
     outfile.open("piResultsCpp.txt", std::ios_base::app); // append to the results text file
