@@ -161,7 +161,7 @@ int main(int argc, char* argv[])
     while(readings[0] == -1 && counter < 50){
         readings = read_dht11_dat(); // Errors frequently occur when reading dht sensor. Keep reading until values are returned.
     }
-    if(counter == 50){
+    if(counter == 5){
         std::cout << "Problem with DHT11 sensor. Check Raspberry Pi \n";
         return 1;
     }
