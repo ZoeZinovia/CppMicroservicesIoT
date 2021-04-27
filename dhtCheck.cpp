@@ -24,7 +24,7 @@ void read_dht11_dat()
     uint8_t laststate	= HIGH;
     uint8_t counter		= 0;
     uint8_t j		= 0, i;
-    float	C; /* fahrenheit */
+    float	C; /* Celcius */
 
     dht11_dat[0] = dht11_dat[1] = dht11_dat[2] = dht11_dat[3] = dht11_dat[4] = 0;
 
@@ -37,6 +37,8 @@ void read_dht11_dat()
     delayMicroseconds( 40 );
     /* prepare to read the pin */
     pinMode( DHTPIN, INPUT );
+
+    std::cout << "Check"<< digitalRead(DHTPIN);
 
     /* detect change and read data */
     for ( i = 0; i < MAXTIMINGS; i++ )
