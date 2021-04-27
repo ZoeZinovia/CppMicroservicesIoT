@@ -6,3 +6,5 @@ pkill -f ./pirPub &
 pkill -f ./ledSub
 
 killall libgpiod_pulsei
+
+echo "Killed all Cpp scripts"
