@@ -15,7 +15,7 @@ extern "C" {
 #include <typeinfo>
 
 #define MAXTIMINGS	85
-#define DHTPIN		32
+#define DHTPIN		11
 
 int dht11_dat[5] = { 0, 0, 0, 0, 0 }; //first 8bits is for humidity integral value, second 8bits for humidity decimal, third for temp integral, fourth for temperature decimal and last for checksum
 
