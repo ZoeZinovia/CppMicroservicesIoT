@@ -159,6 +159,8 @@ int main(int argc, char* argv[])
     } else{
         printf("Connected. Result code %d\n", rc);
     }
+
+    wiringPiSetup();
     double temperature = 0;
     double humidity = 0;
     int *readings = read_dht11_dat();
