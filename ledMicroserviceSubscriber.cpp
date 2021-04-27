@@ -34,10 +34,10 @@ auto start = high_resolution_clock::now(); // Starting timer
 void switch_led(int pin, bool value){ // Function to switch led on and off
     pinMode(pin, OUTPUT);
     if (value) {
-        digitalWrite(12, HIGH);
+        digitalWrite(pin, HIGH);
         std::cout << "\nON!\n";
     } else {
-        digitalWrite(12, LOW);
+        digitalWrite(pin, LOW);
         std::cout << "\nOFF!\n";
     }
 }
