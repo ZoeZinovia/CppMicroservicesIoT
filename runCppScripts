@@ -5,7 +5,7 @@
 #Compile C++ scripts
 
 sudo cc ledMicroserviceSubscriber.cpp -o ledSub -lpaho-mqtt3c -lwiringPi -lstdc++
-sudo cc HumidityTemperatureMicroservicePublisher.cpp -o humTempPub -lpaho-mqtt3c -lwiringPi -lstdc++
+sudo cc humidityTemperatureMicroservicePublisher.cpp -o humTempPub -lpaho-mqtt3c -lwiringPi -lstdc++
 sudo cc pirMicroservicePublisher.cpp -o pirPub -lpaho-mqtt3c -lwiringPi -lstdc++
 
 sleep 5
