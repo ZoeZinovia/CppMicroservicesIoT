@@ -200,7 +200,6 @@ int main(int argc, char* argv[])
                 std::cerr << exc.what();
             }
         }
-
         count = count + 1;
     }
 
