@@ -126,6 +126,5 @@ int main(int argc, char *argv[]){
     MQTTClient_disconnect(client, 10000);
     MQTTClient_destroy(&client);
     switch_led(pin, false);
-    std::cout << "Led subscriber finished\n";
     return rc;
 }
