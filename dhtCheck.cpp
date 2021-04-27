@@ -15,7 +15,7 @@ extern "C" {
 #include <typeinfo>
 
 #define MAXTIMINGS	85
-#define DHTPIN		7
+#define DHTPIN		32
 
 int dht11_dat[5] = { 0, 0, 0, 0, 0 }; //first 8bits is for humidity integral value, second 8bits for humidity decimal, third for temp integral, fourth for temperature decimal and last for checksum
 
@@ -77,8 +77,8 @@ void read_dht11_dat()
          (dht11_dat[4] == ( (dht11_dat[0] + dht11_dat[1] + dht11_dat[2] + dht11_dat[3]) & 0xFF) ) )
     {
         C = dht11_dat[2] ;
-        printf( "Humidity = %d.%d %% Temperature = %d.%d *C (%.1f *C)\n",
-                dht11_dat[0], dht11_dat[1], dht11_dat[2], dht11_dat[3], C);
+        printf( "Humidity = %d.%d %% Temperature = %d.%d *C\n",
+                dht11_dat[0], dht11_dat[1], dht11_dat[2], dht11_dat[3]);
     }else  {
         printf( "Data not good, skip\n" );
     }
