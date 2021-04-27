@@ -35,10 +35,8 @@ void switch_led(int pin, bool value){ // Function to switch led on and off
     pinMode(pin, OUTPUT);
     if (value) {
         digitalWrite(pin, HIGH);
-        std::cout << "\nON!\n";
     } else {
         digitalWrite(pin, LOW);
-        std::cout << "\nOFF!\n";
     }
 }
 
@@ -53,14 +51,11 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
     int i;
     char* payloadptr; //payload
 
-    printf("Message arrived\n");
-    payloadptr = (char*)message->payload;
+    payloadptr = (char*)message->payload; //payload converted to char*
     int len = strlen(payloadptr);
     if(payloadptr[len-2] == '}'){ // Fix for a bug in RapidJson
         payloadptr[len-1] = '\0';
     }
-
-    std::cout << payloadptr << "\n";
 
     rapidjson::Document document;
     document.Parse(payloadptr); // Parse string to JSON

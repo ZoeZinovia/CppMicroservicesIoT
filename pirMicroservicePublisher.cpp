@@ -127,10 +127,8 @@ int main(int argc, char* argv[])
     std::chrono::duration<double> timer = end-start;
     std::ofstream outfile;
     outfile.open("piResultsCpp.txt", std::ios_base::app); // append to the results text file
-    outfile << "Humidity and temperature publisher runtime = " << timer.count() << "\n";
-    std::cout << "Humidity and temperature runtime = " << timer.count() << "\n";
+    outfile << "PIR publisher runtime = " << timer.count() << "\n";
+    std::cout << "PIR runtime = " << timer.count() << "\n";
     return rc;
-}//
-// Created by Shani du Plessis on 27/04/2021.
-//
+}
 
