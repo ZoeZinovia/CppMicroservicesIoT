@@ -68,6 +68,7 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
         std::ofstream outfile;
         outfile.open("piResultsCpp.txt", std::ios_base::app); // append to the results text file
         outfile << "LED subscriber runtime = " << timer.count() << "\n";
+        std::cout << "LED subscriber runtime = " << timer.count() << "\n";
         return 0;
     } else{
         if(document.HasMember("LED_1")) { // If the message is about the LED status, the LED is switch accordingly
