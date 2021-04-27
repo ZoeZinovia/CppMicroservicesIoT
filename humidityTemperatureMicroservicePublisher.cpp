@@ -73,44 +73,49 @@ std::string json_to_string(const rapidjson::Document& doc){
     return std::string(string_buffer.GetString());
 }
 
-int* read_dht11_dat() {
-    uint8_t laststate = HIGH;
-    uint8_t counter = 0;
-    uint8_t j = 0, i;
-    float C; /* Celcius */
+int* read_dht11_dat()
+{
+    uint8_t laststate	= HIGH;
+    uint8_t counter		= 0;
+    uint8_t j		= 0, i;
+    float	C; /* Celcius */
 
     dht11_dat[0] = dht11_dat[1] = dht11_dat[2] = dht11_dat[3] = dht11_dat[4] = 0;
 
     /* pull pin down for 18 milliseconds */
-    pinMode(DHTPIN, OUTPUT);
-    digitalWrite(DHTPIN, LOW);
-    delay(18);
+    pinMode( DHTPIN, OUTPUT );
+    digitalWrite( DHTPIN, LOW );
+    delay( 18 );
     /* then pull it up for 40 microseconds */
-    digitalWrite(DHTPIN, HIGH);
-    delayMicroseconds(40);
+    digitalWrite( DHTPIN, HIGH );
+    delayMicroseconds( 40 );
     /* prepare to read the pin */
-    pinMode(DHTPIN, INPUT);
+    pinMode( DHTPIN, INPUT );
 
     /* detect change and read data */
-    for (i = 0; i < MAXTIMINGS; i++) {
+    for ( i = 0; i < MAXTIMINGS; i++ )
+    {
         counter = 0;
-        while (digitalRead(DHTPIN) == laststate) {
+        while ( digitalRead( DHTPIN ) == laststate )
+        {
             counter++;
-            delayMicroseconds(1);
-            if (counter == 255) {
+            delayMicroseconds( 1 );
+            if ( counter == 255 )
+            {
                 break;
             }
         }
-        laststate = digitalRead(DHTPIN);
+        laststate = digitalRead( DHTPIN );
 
-        if (counter == 255)
+        if ( counter == 255 )
             break;
 
         /* ignore first 3 transitions */
-        if ((i >= 4) && (i % 2 == 0)) {
+        if ( (i >= 4) && (i % 2 == 0) )
+        {
             /* shove each bit into the storage bytes */
             dht11_dat[j / 8] <<= 1;
-            if (counter > 16)
+            if ( counter > 16 )
                 dht11_dat[j / 8] |= 1;
             j++;
         }
@@ -120,10 +125,13 @@ int* read_dht11_dat() {
      * check we read 40 bits (8bit x 5 ) + verify checksum in the last byte
      * print it out if data is good
      */
-    if ((j >= 40) && (dht11_dat[4] == ((dht11_dat[0] + dht11_dat[1] + dht11_dat[2] + dht11_dat[3]) & 0xFF))) {
+    if ( (j >= 40) && (dht11_dat[4] == ( (dht11_dat[0] + dht11_dat[1] + dht11_dat[2] + dht11_dat[3]) & 0xFF) ) )
+    {
+        return dht11_dat;
+    } else  {
+        dht11_dat[0] = -1;
         return dht11_dat;
     }
-
 }
 
 int main(int argc, char* argv[])
@@ -154,10 +162,12 @@ int main(int argc, char* argv[])
     double temperature = 0;
     double humidity = 0;
     int *readings = read_dht11_dat();
-    if(readings != null){
-        humidity = readings[0] + (readings[1]/10);
-        temperature = readings[2] + (readings[3]/10);
+    while(readings[0] == -1){
+        readings = read_dht11_dat();
     }
+    humidity = readings[0] + (readings[1]/10);
+    temperature = readings[2] + (readings[3]/10);
+
     int count = 0;
     while(count <= 2) {
         if(count == 2){
