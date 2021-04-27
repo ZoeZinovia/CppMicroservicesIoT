@@ -108,7 +108,7 @@ int main(int argc, char* argv[])
             rapidjson::Document document_pir;
             document_pir.SetObject();
             rapidjson::Document::AllocatorType &allocator2 = document_pir.GetAllocator();
-            document_pir.AddMember("PIR", motion, allocator2;
+            document_pir.AddMember("PIR", motion, allocator2);
             try {
                 std::string pub_message_pir = json_to_string(document_pir);
                 rc = publish_message(pub_message_pir, TOPIC, client);
