@@ -19,26 +19,24 @@ extern "C" {
 #include <fstream>
 #include <typeinfo>
 
-//MQTT variables
+// MQTT variables
 
-#define CLIENTID    "ExampleClientPub"
+#define CLIENTID    "hum_temp_client"
 #define TOPIC_T       "Temperature"
 #define TOPIC_H       "Humidity"
 #define QOS         1
 #define TIMEOUT     10000L
 
 char* ADDRESS;
-const char* topic_humidity = "Humidity";
-const char* topic_temperature = "Temperature";
 std::string PAYLOAD =      "Hello World!";
 
-//Pi dht11 variables
+// Pi dht11 variables
 #define MAXTIMINGS	85
 #define DHTPIN		7
 
 int dht11_dat[5] = { 0, 0, 0, 0, 0 }; //first 8bits is for humidity integral value, second 8bits for humidity decimal, third for temp integral, fourth for temperature decimal and last for checksum
 
-//RapidJson variables
+// RapidJson variables
 
 using namespace rapidjson;
 using namespace std::chrono;
