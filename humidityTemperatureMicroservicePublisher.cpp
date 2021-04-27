@@ -19,20 +19,29 @@ extern "C" {
 #include <fstream>
 #include <typeinfo>
 
+//MQTT variables
+
 #define CLIENTID    "ExampleClientPub"
 #define TOPIC_T       "Temperature"
 #define TOPIC_H       "Humidity"
 #define QOS         1
 #define TIMEOUT     10000L
-#define DHT_PIN		12	/* GPIO-22 */
-
-using namespace rapidjson;
-using namespace std::chrono;
 
 char* ADDRESS;
 const char* topic_humidity = "Humidity";
 const char* topic_temperature = "Temperature";
 std::string PAYLOAD =      "Hello World!";
+
+//Pi dht11 variables
+#define MAXTIMINGS	85
+#define DHTPIN		7
+
+int dht11_dat[5] = { 0, 0, 0, 0, 0 }; //first 8bits is for humidity integral value, second 8bits for humidity decimal, third for temp integral, fourth for temperature decimal and last for checksum
+
+//RapidJson variables
+
+using namespace rapidjson;
+using namespace std::chrono;
 
 int publish_message(std::string str_message, const char *topic, MQTTClient client){
     // Initializing components for MQTT publisher
@@ -64,6 +73,59 @@ std::string json_to_string(const rapidjson::Document& doc){
     return std::string(string_buffer.GetString());
 }
 
+int* read_dht11_dat() {
+    uint8_t laststate = HIGH;
+    uint8_t counter = 0;
+    uint8_t j = 0, i;
+    float C; /* Celcius */
+
+    dht11_dat[0] = dht11_dat[1] = dht11_dat[2] = dht11_dat[3] = dht11_dat[4] = 0;
+
+    /* pull pin down for 18 milliseconds */
+    pinMode(DHTPIN, OUTPUT);
+    digitalWrite(DHTPIN, LOW);
+    delay(18);
+    /* then pull it up for 40 microseconds */
+    digitalWrite(DHTPIN, HIGH);
+    delayMicroseconds(40);
+    /* prepare to read the pin */
+    pinMode(DHTPIN, INPUT);
+
+    /* detect change and read data */
+    for (i = 0; i < MAXTIMINGS; i++) {
+        counter = 0;
+        while (digitalRead(DHTPIN) == laststate) {
+            counter++;
+            delayMicroseconds(1);
+            if (counter == 255) {
+                break;
+            }
+        }
+        laststate = digitalRead(DHTPIN);
+
+        if (counter == 255)
+            break;
+
+        /* ignore first 3 transitions */
+        if ((i >= 4) && (i % 2 == 0)) {
+            /* shove each bit into the storage bytes */
+            dht11_dat[j / 8] <<= 1;
+            if (counter > 16)
+                dht11_dat[j / 8] |= 1;
+            j++;
+        }
+    }
+
+    /*
+     * check we read 40 bits (8bit x 5 ) + verify checksum in the last byte
+     * print it out if data is good
+     */
+    if ((j >= 40) && (dht11_dat[4] == ((dht11_dat[0] + dht11_dat[1] + dht11_dat[2] + dht11_dat[3]) & 0xFF))) {
+        return dht11_dat;
+    }
+
+}
+
 int main(int argc, char* argv[])
 {
     auto start = high_resolution_clock::now(); // Starting timer
@@ -89,8 +151,13 @@ int main(int argc, char* argv[])
     } else{
         printf("Connected. Result code %d\n", rc);
     }
-    double humidity = 0;
     double temperature = 0;
+    double humidity = 0;
+    int *readings = read_dht11_dat();
+    if(readings != null){
+        humidity = readings[0] + (readings[1]/10);
+        temperature = readings[2] + (readings[3]/10);
+    }
     int count = 0;
     while(count <= 2) {
         if(count == 2){
@@ -102,28 +169,19 @@ int main(int argc, char* argv[])
             rc = publish_message(pub_message_done, TOPIC_T, client);
             rc = publish_message(pub_message_done, TOPIC_H, client);
         }
-
         else {
-            /* pull pin down for 18 milliseconds */
-            pinMode( DHT_PIN, OUTPUT );
-            digitalWrite( DHT_PIN, LOW );
-            delay( 18 );
-
-            /* prepare to read the pin */
-            pinMode( DHT_PIN, INPUT );
-            digitalRead()
             //Create JSON DOM document object for humidity
             rapidjson::Document document_humidity;
             document_humidity.SetObject();
             rapidjson::Document::AllocatorType &allocator2 = document_humidity.GetAllocator();
-            document_humidity.AddMember("Humidity", 88, allocator2);
+            document_humidity.AddMember("Humidity", humidity, allocator2);
             document_humidity.AddMember("Unit", "%", allocator2);
 
             //Create JSON DOM document object for temperature
             rapidjson::Document document_temperature;
             document_temperature.SetObject();
             rapidjson::Document::AllocatorType &allocator3 = document_temperature.GetAllocator();
-            document_temperature.AddMember("Temp", 12, allocator3);
+            document_temperature.AddMember("Temp", temperature, allocator3);
             document_temperature.AddMember("Unit", "C", allocator3);
             try {
                 std::string pub_message_humidity = json_to_string(document_humidity);
