@@ -24,6 +24,7 @@ extern "C" {
 #define TOPIC_H       "Humidity"
 #define QOS         1
 #define TIMEOUT     10000L
+#define DHT_PIN		12	/* GPIO-22 */
 
 using namespace rapidjson;
 using namespace std::chrono;
@@ -38,18 +39,13 @@ int publish_message(std::string str_message, const char *topic, MQTTClient clien
     MQTTClient_message pubmsg = MQTTClient_message_initializer;
     MQTTClient_deliveryToken token;
 
+    // Updating values of pubmsg object
     char *message = new char[str_message.length() + 1];
     strcpy(message, str_message.c_str());
     pubmsg.payload = message;
     pubmsg.payloadlen = (int)std::strlen(message);
     pubmsg.qos = QOS;
     pubmsg.retained = 0;
-//    // Updating values of pubmsg object
-//    pubmsg.payload = PAYLOAD;
-//    std::cout << "Message: " << pub_message << "\n";
-//    //pubmsg.payloadlen = (int) strlen(*pubmsg.payload);
-//    pubmsg.qos = QOS;
-//    pubmsg.retained = 0;
 
     MQTTClient_publishMessage(client, topic, &pubmsg, &token); // Publish the message
     printf("Waiting for up to %d seconds for publication of message.\n",
@@ -108,6 +104,14 @@ int main(int argc, char* argv[])
         }
 
         else {
+            /* pull pin down for 18 milliseconds */
+            pinMode( DHT_PIN, OUTPUT );
+            digitalWrite( DHT_PIN, LOW );
+            delay( 18 );
+
+            /* prepare to read the pin */
+            pinMode( DHT_PIN, INPUT );
+            digitalRead()
             //Create JSON DOM document object for humidity
             rapidjson::Document document_humidity;
             document_humidity.SetObject();
@@ -144,81 +148,3 @@ int main(int argc, char* argv[])
     std::cout << "Humidity and temperature runtime = " << timer.count() << "\n";
     return rc;
 }
-
-//
-///*******************************************************************************
-// * Copyright (c) 2012, 2017 IBM Corp.
-// *
-// * All rights reserved. This program and the accompanying materials
-// * are made available under the terms of the Eclipse Public License v1.0
-// * and Eclipse Distribution License v1.0 which accompany this distribution.
-// *
-// * The Eclipse Public License is available at
-// *   http://www.eclipse.org/legal/epl-v10.html
-// * and the Eclipse Distribution License is available at
-// *   http://www.eclipse.org/org/documents/edl-v10.php.
-// *
-// * Contributors:
-// *    Ian Craggs - initial contribution
-// *******************************************************************************/
-//
-//extern "C" {
-//    #include <wiringPi.h>
-//    #include <stdio.h>
-//    #include <stdlib.h>
-//    #include <string.h>
-//    #include "MQTTClient.h"
-//}
-//#include <csignal>
-//#include <iostream>
-//#include "include/rapidjson/document.h"
-//#include "include/rapidjson/stringbuffer.h"
-//#include "include/rapidjson/prettywriter.h"
-//#include "include/rapidjson/writer.h"
-//#include <chrono>
-//#include <fstream>
-//#include <typeinfo>
-//
-//#define ADDRESS     "10.35.0.229:1883"
-//#define CLIENTID    "ExampleClientPub"
-//#define TOPIC       "MQTT"
-//std::string PAYLOAD =      "Hello World!";
-//#define QOS         1
-//#define TIMEOUT     10000L
-//
-//int main(int argc, char* argv[])
-//{
-//    MQTTClient client;
-//    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
-//    MQTTClient_message pubmsg = MQTTClient_message_initializer;
-//    MQTTClient_deliveryToken token;
-//    int rc;
-//
-//    MQTTClient_create(&client, ADDRESS, CLIENTID,
-//                      MQTTCLIENT_PERSISTENCE_NONE, NULL);
-//    conn_opts.keepAliveInterval = 20;
-//    conn_opts.cleansession = 1;
-//
-//    if ((rc = MQTTClient_connect(client, &conn_opts)) != MQTTCLIENT_SUCCESS)
-//    {
-//        printf("Failed to connect, return code %d\n", rc);
-//        exit(EXIT_FAILURE);
-//    }
-//
-//    char *message = new char[PAYLOAD.length() + 1];
-//    strcpy(message, PAYLOAD.c_str());
-//    pubmsg.payload = message;
-//    pubmsg.payloadlen = (int)std::strlen(message);
-//    pubmsg.qos = QOS;
-//    pubmsg.retained = 0;
-//    MQTTClient_publishMessage(client, TOPIC, &pubmsg, &token);
-////    printf("Waiting for up to %d seconds for publication of %s\n"
-////           "on topic %s for client with ClientID: %s\n",
-////           (int)(TIMEOUT/1000), PAYLOAD, TOPIC, CLIENTID);
-//    rc = MQTTClient_waitForCompletion(client, token, TIMEOUT);
-//    printf("Message with delivery token %d delivered\n", token);
-//    MQTTClient_disconnect(client, 10000);
-//    MQTTClient_destroy(&client);
-//    return rc;
-//}
-//
