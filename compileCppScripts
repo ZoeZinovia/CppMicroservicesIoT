@@ -1,0 +1,8 @@
+#Compile C++ scripts in parallel on the publisher side.
+#Run by using the following line in the correct directory in terminal: bash compileCppScripts
+
+sudo cc ledMicroserviceSubscriber.cpp -o ledSub -lpaho-mqtt3c -lwiringPi -lstdc++
+sudo cc humidityTemperatureMicroservicePublisher.cpp -o humTempPub -lpaho-mqtt3c -lwiringPi -lstdc++
+sudo cc pirMicroservicePublisher.cpp -o pirPub -lpaho-mqtt3c -lwiringPi -lstdc++
+
+exit
