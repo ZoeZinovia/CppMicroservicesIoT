@@ -15,7 +15,7 @@ extern "C" {
 #include <typeinfo>
 
 #define MAXTIMINGS	85
-#define DHTPIN		12
+#define DHTPIN		32
 
 int dht11_dat[5] = { 0, 0, 0, 0, 0 };
 
