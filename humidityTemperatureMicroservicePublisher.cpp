@@ -24,11 +24,10 @@ extern "C" {
 #define CLIENTID    "hum_temp_client"
 #define TOPIC_T       "Temperature"
 #define TOPIC_H       "Humidity"
-#define QOS         1
+#define QOS         0
 #define TIMEOUT     10000L
 
 char* ADDRESS;
-std::string PAYLOAD =      "Hello World!";
 
 // Pi dht11 variables
 #define MAXTIMINGS	85

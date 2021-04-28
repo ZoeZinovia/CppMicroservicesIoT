@@ -21,7 +21,7 @@ using namespace std::chrono;
 
 #define CLIENTID    "ledSubscriber"
 #define TOPIC       "LED"
-#define QOS         1
+#define QOS         0
 
 int pin;
 volatile MQTTClient_deliveryToken deliveredtoken;
