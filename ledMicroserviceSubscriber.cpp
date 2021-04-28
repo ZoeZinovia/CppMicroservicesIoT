@@ -78,7 +78,9 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
         if(document.HasMember("LED_1")) { // If the message is about the LED status, the LED is switch accordingly
             led_status = (bool) document["LED_1"].GetBool();
             pin = document["GPIO"].GetInt();
-            switch_led(pin, led_status);
+            pinMode(pin, OUTPUT);
+            digitalWrite(pin, led_status);
+//            switch_led(pin, led_status);
         }
         MQTTClient_freeMessage(&message);
         MQTTClient_free(topicName);
