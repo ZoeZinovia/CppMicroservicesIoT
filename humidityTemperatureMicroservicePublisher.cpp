@@ -169,8 +169,8 @@ int main(int argc, char* argv[])
     temperature = readings[2] + (readings[3]/10);
 
     int count = 0;
-    while(count <= 20) {
-        if(count == 20){
+    while(count <= 100) {
+        if(count == 100){
             rapidjson::Document document_done;
             document_done.SetObject();
             rapidjson::Document::AllocatorType& allocator1 = document_done.GetAllocator();

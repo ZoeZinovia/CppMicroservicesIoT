@@ -93,8 +93,8 @@ int main(int argc, char* argv[])
     pinMode(PIN, INPUT);
     bool motion = false;
     int count = 0;
-    while(count <= 20) {
-        if(count == 20){
+    while(count <= 100) {
+        if(count == 100){
             rapidjson::Document document_done;
             document_done.SetObject();
             rapidjson::Document::AllocatorType& allocator1 = document_done.GetAllocator();
