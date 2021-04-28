@@ -132,6 +132,7 @@ int main(int argc, char *argv[]){
 //    MQTTClient_unsubscribe(client, TOPIC);
     MQTTClient_disconnect(client, 10000);
     MQTTClient_destroy(&client);
-    switch_led(pin, false);
+//    switch_led(pin, false);
+    digitalWrite(pin, 0);
     return rc;
 }
