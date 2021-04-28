@@ -111,7 +111,7 @@ int main(int argc, char* argv[])
 //            document_pir.AddMember("PIR", motion, allocator2);
             try {
 //                std::string pub_message_pir = json_to_string(document_pir);
-                rc = publish_message(motion, TOPIC, client);
+                rc = publish_message("true", TOPIC, client);
             } catch (const std::exception &exc) {
                 // catch anything thrown within try block that derives from std::exception
                 std::cerr << exc.what();
