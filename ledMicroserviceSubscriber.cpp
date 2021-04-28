@@ -31,15 +31,6 @@ char* ADDRESS;
 int num_messages = 0;
 auto start = high_resolution_clock::now(); // initialize start
 
-void switch_led(int pin, bool value){ // Function to switch led on and off
-    pinMode(pin, OUTPUT);
-    if (value) {
-        digitalWrite(pin, HIGH);
-    } else {
-        digitalWrite(pin, LOW);
-    }
-}
-
 void delivered(void *context, MQTTClient_deliveryToken dt) // Required callback
 {
     printf("Message with token value %d delivery confirmed\n", dt);
@@ -80,7 +71,6 @@ int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *m
             pin = document["GPIO"].GetInt();
             pinMode(pin, OUTPUT);
             digitalWrite(pin, led_status);
-//            switch_led(pin, led_status);
         }
         MQTTClient_freeMessage(&message);
         MQTTClient_free(topicName);
@@ -108,8 +98,7 @@ int main(int argc, char *argv[]){
     int rc;
     int ch;
 
-    MQTTClient_create(&client, ADDRESS, CLIENTID,
-                      MQTTCLIENT_PERSISTENCE_NONE, NULL);
+    MQTTClient_create(&client, ADDRESS, CLIENTID, MQTTCLIENT_PERSISTENCE_NONE, NULL);
     conn_opts.keepAliveInterval = 20;
     conn_opts.cleansession = 1;
 
@@ -132,7 +121,6 @@ int main(int argc, char *argv[]){
 //    MQTTClient_unsubscribe(client, TOPIC);
     MQTTClient_disconnect(client, 10000);
     MQTTClient_destroy(&client);
-//    switch_led(pin, false);
     digitalWrite(pin, 0);
     return rc;
 }
