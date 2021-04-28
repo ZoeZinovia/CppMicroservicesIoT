@@ -25,11 +25,10 @@ extern "C" {
 // MQTT variables
 #define CLIENTID    "pir_client"
 #define TOPIC       "PIR"
-#define QOS         1
+#define QOS         0
 #define TIMEOUT     10000L
 
 char* ADDRESS;
-std::string PAYLOAD =      "Hello World!";
 
 // RapidJson variables
 using namespace rapidjson;

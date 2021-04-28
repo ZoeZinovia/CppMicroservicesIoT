@@ -28,7 +28,6 @@ extern "C" {
 #define TIMEOUT     10000L
 
 char* ADDRESS;
-std::string PAYLOAD =      "Hello World!";
 
 // Pi dht11 variables
 #define MAXTIMINGS	85
