@@ -48,7 +48,7 @@ void delivered(void *context, MQTTClient_deliveryToken dt) // Required callback
 int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message) // Callback function for when an MQTT message arrives from the broker
 {
     num_messages = num_messages + 1;
-    std::chrono::high_resolution_clock::time_point start;
+    auto start = high_resolution_clock::now();
     if(num_messages == 1){
         start = high_resolution_clock::now(); // Starting timer
     }
