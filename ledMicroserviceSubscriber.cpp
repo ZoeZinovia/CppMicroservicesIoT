@@ -28,8 +28,7 @@ volatile MQTTClient_deliveryToken deliveredtoken;
 bool led_status;
 std::string session_status;
 char* ADDRESS;
-
-auto start = high_resolution_clock::now(); // Starting timer
+int num_messages = 0;
 
 void switch_led(int pin, bool value){ // Function to switch led on and off
     pinMode(pin, OUTPUT);
@@ -48,6 +47,10 @@ void delivered(void *context, MQTTClient_deliveryToken dt) // Required callback
 
 int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message) // Callback function for when an MQTT message arrives from the broker
 {
+    num_messages = num_messages + 1;
+    if(num_message == 1){
+        auto start = high_resolution_clock::now(); // Starting timer
+    }
     int i;
     char* payloadptr; //payload
 
