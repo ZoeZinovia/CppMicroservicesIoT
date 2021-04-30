@@ -1,3 +1,3 @@
-PIR publisher runtime = 0.113362
-Humidity and temperature publisher runtime = 0.142365
-LED subscriber runtime = 1.4605
+PIR publisher runtime = 0.114679
+Humidity and temperature publisher runtime = 0.143584
+LED subscriber runtime = 1.37683
