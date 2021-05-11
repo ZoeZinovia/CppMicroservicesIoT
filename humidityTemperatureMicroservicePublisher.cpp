@@ -124,12 +124,20 @@ int* read_dht11_dat()
             printf("Error opening file!\n");
             exit(1);
         }
-        fprintf(f, "%s", "error :(\n");
         fprintf(f, "%d, %d, %d, %d, %d\n", dht11_dat[0], dht11_dat[1], dht11_dat[2], dht11_dat[3], dht11_dat[4]);
         fclose(f);
         return dht11_dat; // If all ok, return pointer to the data array
     } else  {
         dht11_dat[0] = -1;
+        FILE *f = fopen("comment.txt", "a");
+        if (f == NULL)
+        {
+            printf("Error opening file!\n");
+            exit(1);
+        }
+        fprintf(f, "%s", "error :(\n");
+        fprintf(f, "%d, %d, %d, %d, %d\n", dht11_dat[0], dht11_dat[1], dht11_dat[2], dht11_dat[3], dht11_dat[4]);
+        fclose(f);
         return dht11_dat; //If there was an error, set first array element to -1 as flag to main function
     }
 }
