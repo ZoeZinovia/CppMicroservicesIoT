@@ -124,6 +124,7 @@ int* read_dht11_dat()
             printf("Error opening file!\n");
             exit(1);
         }
+        fprintf(f, "%s", "worked :)\n");
         fprintf(f, "%d, %d, %d, %d, %d\n", dht11_dat[0], dht11_dat[1], dht11_dat[2], dht11_dat[3], dht11_dat[4]);
         fclose(f);
         return dht11_dat; // If all ok, return pointer to the data array
