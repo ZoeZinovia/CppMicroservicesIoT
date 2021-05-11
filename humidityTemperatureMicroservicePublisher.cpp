@@ -157,13 +157,15 @@ int main(int argc, char* argv[])
     double humidity = 0;
     int *readings = read_dht11_dat();
     int counter = 0;
-    while(readings[0] == -1 && counter < 50){
+    while(readings[0] == -1 && counter < 5){
         readings = read_dht11_dat(); // Errors frequently occur when reading dht sensor. Keep reading until values are returned.
+        counter = counter + 1;
     }
     if(counter == 5){
         std::cout << "Problem with DHT11 sensor. Check Raspberry Pi \n";
         return 1;
     }
+    std::cout << readings[0] << " " << readings[1] << " " << readings[2] << " " << readings[3] << " " << readings[4];
     humidity = readings[0] + (readings[1]/10);
     temperature = readings[2] + (readings[3]/10);
 
