@@ -173,19 +173,6 @@ int main(int argc, char* argv[])
 
     double temperature = 0;
     double humidity = 0;
-    int *readings = read_dht11_dat();
-    int counter = 0;
-    while(readings[0] == -1 && counter < 5){
-        readings = read_dht11_dat(); // Errors frequently occur when reading dht sensor. Keep reading until values are returned.
-        counter = counter + 1;
-    }
-    if(counter == 5){
-        std::cout << "Problem with DHT11 sensor. Check Raspberry Pi \n";
-        return 1;
-    }
-    humidity = readings[0] + (readings[1]/10);
-    temperature = readings[2] + (readings[3]/10);
-
     int count = 0;
     while(count <= 100) {
         if(count == 100){
@@ -198,6 +185,20 @@ int main(int argc, char* argv[])
             rc = publish_message(pub_message_done, TOPIC_H, client);
         }
         else {
+            int *readings = read_dht11_dat();
+            int counter = 0;
+//            while(readings[0] == -1 && counter < 5){
+//                readings = read_dht11_dat(); // Errors frequently occur when reading dht sensor. Keep reading until values are returned.
+//                counter = counter + 1;
+//            }
+//            if(counter == 5){
+//                std::cout << "Problem with DHT11 sensor. Check Raspberry Pi \n";
+//                return 1;
+//            }
+            if(readings[0] != -1) {
+                humidity = readings[0] + (readings[1] / 10);
+                temperature = readings[2] + (readings[3] / 10);
+            }
             //Create JSON DOM document object for humidity
             rapidjson::Document document_humidity;
             document_humidity.SetObject();
