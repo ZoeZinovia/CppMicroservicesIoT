@@ -93,7 +93,7 @@ int* read_dht11_dat()
         while ( digitalRead( DHTPIN ) == laststate )
         {
             counter++;
-            delayMicroseconds( 1 );
+            delayMicroseconds( 2 );
             if ( counter == 255 )
             {
                 break;
