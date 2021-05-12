@@ -128,8 +128,8 @@ int* read_dht11_dat()
 //        fprintf(f, "%s", "worked :)\n");
 //        fprintf(f, "%d, %d, %d, %d, %d\n", dht11_dat[0], dht11_dat[1], dht11_dat[2], dht11_dat[3], dht11_dat[4]);
 //        fclose(f);
-        end1 = high_resolution_clock::now();
-        timer1 = end1-start1;
+        auto end1 = high_resolution_clock::now();
+        std::chrono::duration<double> timer1 = end1-start1;
         std::cout << "Humidity and temperature runtime readings = " << timer1.count() << "\n";
         return dht11_dat; // If all ok, return pointer to the data array
     } else  {
