@@ -186,6 +186,10 @@ int main(int argc, char* argv[])
     humidity = readings[0] + (readings[1]/10);
     temperature = readings[2] + (readings[3]/10);
 
+    auto end = high_resolution_clock::now();
+    std::chrono::duration<double> timer = end-start;
+    std::cout << "Humidity and temperature runtime after readings= " << timer.count() << "\n";
+
     int count = 0;
     while(count <= 100) {
         if(count == 100){
