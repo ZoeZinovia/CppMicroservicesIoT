@@ -70,6 +70,7 @@ std::string json_to_string(const rapidjson::Document& doc){
 // Reading of the dht11 is rather complex in C/C++. See this site that explains how readings are made: http://www.uugear.com/portfolio/dht11-humidity-temperature-sensor-module/
 int* read_dht11_dat()
 {
+    auto start1 = high_resolution_clock::now();
     uint8_t laststate	= HIGH;
     uint8_t counter		= 0;
     uint8_t j		= 0, i;
@@ -118,27 +119,30 @@ int* read_dht11_dat()
     // Check that 40 bits (8bit x 5 ) were read + verify checksum in the last byte
     if ( (j >= 40) && (dht11_dat[4] == ( (dht11_dat[0] + dht11_dat[1] + dht11_dat[2] + dht11_dat[3]) & 0xFF) ) )
     {
-        FILE *f = fopen("comment.txt", "a");
-        if (f == NULL)
-        {
-            printf("Error opening file!\n");
-            exit(1);
-        }
-        fprintf(f, "%s", "worked :)\n");
-        fprintf(f, "%d, %d, %d, %d, %d\n", dht11_dat[0], dht11_dat[1], dht11_dat[2], dht11_dat[3], dht11_dat[4]);
-        fclose(f);
+//        FILE *f = fopen("comment.txt", "a");
+//        if (f == NULL)
+//        {
+//            printf("Error opening file!\n");
+//            exit(1);
+//        }
+//        fprintf(f, "%s", "worked :)\n");
+//        fprintf(f, "%d, %d, %d, %d, %d\n", dht11_dat[0], dht11_dat[1], dht11_dat[2], dht11_dat[3], dht11_dat[4]);
+//        fclose(f);
+        end1 = high_resolution_clock::now();
+        timer1 = end1-start1;
+        std::cout << "Humidity and temperature runtime readings = " << timer1.count() << "\n";
         return dht11_dat; // If all ok, return pointer to the data array
     } else  {
-        dht11_dat[0] = -1;
-        FILE *f = fopen("comment.txt", "a");
-        if (f == NULL)
-        {
-            printf("Error opening file!\n");
-            exit(1);
-        }
-        fprintf(f, "%s", "error :(\n");
-        fprintf(f, "%d, %d, %d, %d, %d\n", dht11_dat[0], dht11_dat[1], dht11_dat[2], dht11_dat[3], dht11_dat[4]);
-        fclose(f);
+//        dht11_dat[0] = -1;
+//        FILE *f = fopen("comment.txt", "a");
+//        if (f == NULL)
+//        {
+//            printf("Error opening file!\n");
+//            exit(1);
+//        }
+//        fprintf(f, "%s", "error :(\n");
+//        fprintf(f, "%d, %d, %d, %d, %d\n", dht11_dat[0], dht11_dat[1], dht11_dat[2], dht11_dat[3], dht11_dat[4]);
+//        fclose(f);
         return dht11_dat; //If there was an error, set first array element to -1 as flag to main function
     }
 }
