@@ -154,11 +154,15 @@ int main(int argc, char* argv[])
         printf("Connected. Result code %d\n", rc);
     }
 
+    auto end2 = high_resolution_clock::now();
+    std::chrono::duration<double> timer2 = end2-start;
+    std::cout << "Humidity and temperature runtime before wiringPi = " << timer2.count() << "\n";
+
     wiringPiSetup(); // Required for wiringPi
 
 
-    auto end2 = high_resolution_clock::now();
-    std::chrono::duration<double> timer2 = end2-start;
+    end2 = high_resolution_clock::now();
+    timer2 = end2-start;
     std::cout << "Humidity and temperature runtime before readings = " << timer2.count() << "\n";
 
     double temperature = 0;
