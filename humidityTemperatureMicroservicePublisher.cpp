@@ -158,9 +158,9 @@ int main(int argc, char* argv[])
 
 
     auto end2 = high_resolution_clock::now();
-    auto timer2 = end2-start;
+    std::chrono::duration<double> timer2 = end2-start;
     std::cout << "Humidity and temperature runtime before readings = " << timer2.count() << "\n";
-    
+
     double temperature = 0;
     double humidity = 0;
     int *readings = read_dht11_dat();
