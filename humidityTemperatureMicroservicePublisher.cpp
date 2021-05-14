@@ -158,12 +158,16 @@ int main(int argc, char* argv[])
 
     double temperature = 0;
     double humidity = 0;
+    auto start1 = high_resolution_clock::now();
     int *readings = read_dht11_dat();
+    auto end1 = high_resolution_clock::now();
+    std::chrono::duration<double> timer1 = end1-start1;
+    std::cout << "Time to get reading = " << timer1.count() << "\n";
     int counter = 0;
 
-    auto end1 = high_resolution_clock::now();
-    auto timer1 = end1-start;
-    std::cout << "Humidity and temperature runtime before readings = " << timer1.count() << "\n";
+    auto end2 = high_resolution_clock::now();
+    auto timer2 = end2-start;
+    std::cout << "Humidity and temperature runtime before readings = " << timer2.count() << "\n";
 
     while(readings[0] == -1 && counter < 5){
         readings = read_dht11_dat(); // Errors frequently occur when reading dht sensor. Keep reading until values are returned.
