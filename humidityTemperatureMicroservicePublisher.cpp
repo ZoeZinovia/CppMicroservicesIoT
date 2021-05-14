@@ -175,7 +175,7 @@ int main(int argc, char* argv[])
 //    std::cout << "Humidity and temperature runtime before readings = " << timer2.count() << "\n";
 
     int count = 0;
-    int num_iterations = 1000;
+    int num_iterations = 10000;
     auto dhtStart = high_resolution_clock::now();
     auto dhtEnd = high_resolution_clock::now();
     std::chrono::duration<double> dhtTimer;
@@ -240,7 +240,7 @@ int main(int argc, char* argv[])
     }
 
     // End of loop. Stop MQTT and calculate runtime
-    MQTTClient_disconnect(client, 10000000);
+    MQTTClient_disconnect(client, 1000);
     MQTTClient_destroy(&client);
     auto end = high_resolution_clock::now();
     std::chrono::duration<double> timer = end-start;
