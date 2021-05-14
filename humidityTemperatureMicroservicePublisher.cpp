@@ -193,8 +193,9 @@ int main(int argc, char* argv[])
     std::cout << "Humidity and temperature runtime after readings= " << timer.count() << "\n";
 
     int count = 0;
-    while(count <= 100) {
-        if(count == 100){
+    int num_iterations = 1000;
+    while(count <= num_iterations) {
+        if(count == num_iterations){
             rapidjson::Document document_done;
             document_done.SetObject();
             rapidjson::Document::AllocatorType& allocator1 = document_done.GetAllocator();
