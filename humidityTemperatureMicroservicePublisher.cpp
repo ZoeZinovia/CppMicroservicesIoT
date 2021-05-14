@@ -138,13 +138,25 @@ int main(int argc, char* argv[])
     strcpy(char_input, input.c_str());
     ADDRESS = char_input;
 
+    auto end2 = high_resolution_clock::now();
+    std::chrono::duration<double> timer2 = end2-start;
+    std::cout << "Humidity and temperature runtime define stuff = " << timer2.count() << "\n";
+
     MQTTClient client;
     MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
     int rc;
 
+    end2 = high_resolution_clock::now();
+    timer2 = end2-start;
+    std::cout << "Humidity and temperature runtime define client stuff = " << timer2.count() << "\n";
+
     MQTTClient_create(&client, ADDRESS, CLIENTID, MQTTCLIENT_PERSISTENCE_NONE, NULL);
     conn_opts.keepAliveInterval = 20;
     conn_opts.cleansession = 1;
+
+    end2 = high_resolution_clock::now();
+    timer2 = end2-start;
+    std::cout << "Humidity and temperature runtime connect to client = " << timer2.count() << "\n";
 
     if ((rc = MQTTClient_connect(client, &conn_opts)) != MQTTCLIENT_SUCCESS)
     {
@@ -154,12 +166,7 @@ int main(int argc, char* argv[])
         printf("Connected. Result code %d\n", rc);
     }
 
-    auto end2 = high_resolution_clock::now();
-    std::chrono::duration<double> timer2 = end2-start;
-    std::cout << "Humidity and temperature runtime before wiringPi = " << timer2.count() << "\n";
-
     wiringPiSetup(); // Required for wiringPi
-
 
     end2 = high_resolution_clock::now();
     timer2 = end2-start;
