@@ -137,26 +137,28 @@ int main(int argc, char* argv[])
     char char_input[input.length() + 1];
     strcpy(char_input, input.c_str());
     ADDRESS = char_input;
+    double temperature = 0;
+    double humidity = 0;
 
-    auto end2 = high_resolution_clock::now();
-    std::chrono::duration<double> timer2 = end2-start;
-    std::cout << "Humidity and temperature runtime define stuff = " << timer2.count() << "\n";
+//    auto end2 = high_resolution_clock::now();
+//    std::chrono::duration<double> timer2 = end2-start;
+//    std::cout << "Humidity and temperature runtime define stuff = " << timer2.count() << "\n";
 
     MQTTClient client;
     MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
     int rc;
 
-    end2 = high_resolution_clock::now();
-    timer2 = end2-start;
-    std::cout << "Humidity and temperature runtime define client stuff = " << timer2.count() << "\n";
+//    end2 = high_resolution_clock::now();
+//    timer2 = end2-start;
+//    std::cout << "Humidity and temperature runtime define client stuff = " << timer2.count() << "\n";
 
     MQTTClient_create(&client, ADDRESS, CLIENTID, MQTTCLIENT_PERSISTENCE_NONE, NULL);
     conn_opts.keepAliveInterval = 20;
     conn_opts.cleansession = 1;
 
-    end2 = high_resolution_clock::now();
-    timer2 = end2-start;
-    std::cout << "Humidity and temperature runtime connect to client = " << timer2.count() << "\n";
+//    end2 = high_resolution_clock::now();
+//    timer2 = end2-start;
+//    std::cout << "Humidity and temperature runtime connect to client = " << timer2.count() << "\n";
 
     if ((rc = MQTTClient_connect(client, &conn_opts)) != MQTTCLIENT_SUCCESS)
     {
@@ -168,33 +170,38 @@ int main(int argc, char* argv[])
 
     wiringPiSetup(); // Required for wiringPi
 
-    end2 = high_resolution_clock::now();
-    timer2 = end2-start;
-    std::cout << "Humidity and temperature runtime before readings = " << timer2.count() << "\n";
-
-    double temperature = 0;
-    double humidity = 0;
-    int *readings = read_dht11_dat();
-    int counter = 0;
-
-    while(readings[0] == -1 && counter < 5){
-        readings = read_dht11_dat(); // Errors frequently occur when reading dht sensor. Keep reading until values are returned.
-        counter = counter + 1;
-    }
-    if(counter == 5){
-        std::cout << "Problem with DHT11 sensor. Check Raspberry Pi \n";
-        return 1;
-    }
-    humidity = readings[0] + (readings[1]/10);
-    temperature = readings[2] + (readings[3]/10);
-
-    auto end = high_resolution_clock::now();
-    std::chrono::duration<double> timer = end-start;
-    std::cout << "Humidity and temperature runtime after readings= " << timer.count() << "\n";
+//    end2 = high_resolution_clock::now();
+//    timer2 = end2-start;
+//    std::cout << "Humidity and temperature runtime before readings = " << timer2.count() << "\n";
 
     int count = 0;
     int num_iterations = 1000;
+    auto dhtStart = high_resolution_clock::now();
+    auto dhtEnd = high_resolution_clock::now();
+    std::chrono::duration<double> dhtTimer;
     while(count <= num_iterations) {
+        dhtEnd = high_resolution_clock::now();
+        dhtTimer = dhtEnd - dhtStart;
+        if((temperature == 0 && humidity == 0) || dhtTimer > (std::chrono::seconds(1))) { //need to get values from
+            int *readings = read_dht11_dat();
+            dhtStart = high_resolution_clock::now();
+            int counter = 0;
+            while (readings[0] == -1 && counter < 5) {
+                readings = read_dht11_dat(); // Errors frequently occur when reading dht sensor. Keep reading until values are returned.
+                counter = counter + 1;
+            }
+            if (counter == 5) {
+                std::cout << "Problem with DHT11 sensor. Check Raspberry Pi \n";
+                return 1;
+            }
+            humidity = readings[0] + (readings[1] / 10);
+            temperature = readings[2] + (readings[3] / 10);
+        }
+
+//        auto end = high_resolution_clock::now();
+//        std::chrono::duration<double> timer = end-start;
+//        std::cout << "Humidity and temperature runtime after readings= " << timer.count() << "\n";
+
         if(count == num_iterations){
             rapidjson::Document document_done;
             document_done.SetObject();
