@@ -156,14 +156,15 @@ int main(int argc, char* argv[])
 
     wiringPiSetup(); // Required for wiringPi
 
-    double temperature = 0;
-    double humidity = 0;
-    int *readings = read_dht11_dat();
-    int counter = 0;
 
     auto end2 = high_resolution_clock::now();
     auto timer2 = end2-start;
     std::cout << "Humidity and temperature runtime before readings = " << timer2.count() << "\n";
+    
+    double temperature = 0;
+    double humidity = 0;
+    int *readings = read_dht11_dat();
+    int counter = 0;
 
     while(readings[0] == -1 && counter < 5){
         readings = read_dht11_dat(); // Errors frequently occur when reading dht sensor. Keep reading until values are returned.
