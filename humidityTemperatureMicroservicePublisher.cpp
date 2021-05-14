@@ -175,7 +175,7 @@ int main(int argc, char* argv[])
 //    std::cout << "Humidity and temperature runtime before readings = " << timer2.count() << "\n";
 
     int count = 0;
-    int num_iterations = 1000000;
+    int num_iterations = 100000;
     auto dhtStart = high_resolution_clock::now();
     auto dhtEnd = high_resolution_clock::now();
     std::chrono::duration<double> dhtTimer;
