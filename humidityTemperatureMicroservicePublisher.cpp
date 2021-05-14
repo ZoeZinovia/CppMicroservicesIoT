@@ -158,11 +158,7 @@ int main(int argc, char* argv[])
 
     double temperature = 0;
     double humidity = 0;
-    auto start1 = high_resolution_clock::now();
     int *readings = read_dht11_dat();
-    auto end1 = high_resolution_clock::now();
-    std::chrono::duration<double> timer1 = end1-start1;
-    std::cout << "Time to get reading = " << timer1.count() << "\n";
     int counter = 0;
 
     auto end2 = high_resolution_clock::now();
