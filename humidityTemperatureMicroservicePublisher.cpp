@@ -119,9 +119,9 @@ int* read_dht11_dat()
     // Check that 40 bits (8bit x 5 ) were read + verify checksum in the last byte
     if ( (j >= 40) && (dht11_dat[4] == ( (dht11_dat[0] + dht11_dat[1] + dht11_dat[2] + dht11_dat[3]) & 0xFF) ) )
     {
-        auto end1 = high_resolution_clock::now();
-        std::chrono::duration<double> timer1 = end1-start1;
-        std::cout << "Humidity and temperature runtime readings = " << timer1.count() << "\n";
+//        auto end1 = high_resolution_clock::now();
+//        std::chrono::duration<double> timer1 = end1-start1;
+//        std::cout << "Humidity and temperature runtime readings = " << timer1.count() << "\n";
         return dht11_dat; // If all ok, return pointer to the data array
     } else  {
         return dht11_dat; //If there was an error, set first array element to -1 as flag to main function
@@ -183,7 +183,6 @@ int main(int argc, char* argv[])
         dhtEnd = high_resolution_clock::now();
         dhtTimer = dhtEnd - dhtStart;
         if((temperature == 0 && humidity == 0) || dhtTimer > (std::chrono::seconds(1))) { //need to get values from
-            std::cout << "Taking reading!";
             int *readings = read_dht11_dat();
             dhtStart = high_resolution_clock::now();
             int counter = 0;
