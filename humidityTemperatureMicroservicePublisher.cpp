@@ -240,7 +240,7 @@ int main(int argc, char* argv[])
     }
 
     // End of loop. Stop MQTT and calculate runtime
-    MQTTClient_disconnect(client, 100000);
+    MQTTClient_disconnect(client, 10000000);
     MQTTClient_destroy(&client);
     auto end = high_resolution_clock::now();
     std::chrono::duration<double> timer = end-start;
