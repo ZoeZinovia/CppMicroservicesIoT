@@ -175,7 +175,7 @@ int main(int argc, char* argv[])
 //    std::cout << "Humidity and temperature runtime before readings = " << timer2.count() << "\n";
 
     int count = 0;
-    int num_iterations = 10000;
+    int num_iterations = 1000000;
     auto dhtStart = high_resolution_clock::now();
     auto dhtEnd = high_resolution_clock::now();
     std::chrono::duration<double> dhtTimer;
@@ -244,7 +244,7 @@ int main(int argc, char* argv[])
     auto end = high_resolution_clock::now();
     std::chrono::duration<double> timer = end-start;
     std::ofstream outfile;
-    outfile.open("piResultsCpp.txt", std::ios_base::app); // append to the results text file
+    outfile.open("piResultsCppLong.txt", std::ios_base::app); // append to the results text file
     outfile << "Humidity and temperature publisher runtime = " << timer.count() << "\n";
     std::cout << "Humidity and temperature runtime = " << timer.count() << "\n";
     return rc;

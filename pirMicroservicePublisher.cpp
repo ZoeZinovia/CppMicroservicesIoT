@@ -92,7 +92,7 @@ int main(int argc, char* argv[])
     pinMode(PIN, INPUT);
     bool motion = false;
     int count = 0;
-    int numIterations = 10000;
+    int numIterations = 1000000;
     while(count <= numIterations) {
         if(count == numIterations){
             rapidjson::Document document_done;
@@ -126,7 +126,7 @@ int main(int argc, char* argv[])
     auto end = high_resolution_clock::now();
     std::chrono::duration<double> timer = end-start;
     std::ofstream outfile;
-    outfile.open("piResultsCpp.txt", std::ios_base::app); // append to the results text file
+    outfile.open("piResultsCppLong.txt", std::ios_base::app); // append to the results text file
     outfile << "PIR publisher runtime = " << timer.count() << "\n";
     std::cout << "PIR runtime = " << timer.count() << "\n";
     return rc;

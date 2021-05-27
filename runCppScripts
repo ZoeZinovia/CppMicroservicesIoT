@@ -4,9 +4,9 @@
 
 start=$(date +%s.%N)
 
-/usr/bin/time -v -o memoryResultsCpp.txt -a ./humTempPub $1 &
-/usr/bin/time -v -o memoryResultsCpp.txt -a ./pirPub $1 &
-/usr/bin/time -v -o memoryResultsCpp.txt -a ./ledSub $1;
+/usr/bin/time -v -o memoryResultsCppLong.txt -a ./humTempPub $1 &
+/usr/bin/time -v -o memoryResultsCppLong.txt -a ./pirPub $1 &
+/usr/bin/time -v -o memoryResultsCppLong.txt -a ./ledSub $1;
 
 end=$(date +%s.%N)
 
