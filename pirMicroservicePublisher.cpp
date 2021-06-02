@@ -92,7 +92,7 @@ int main(int argc, char* argv[])
     pinMode(PIN, INPUT);
     bool motion = false;
     int count = 0;
-    int numIterations = 1000000;
+    int numIterations = 100000;
     while(count <= numIterations) {
         if(count == numIterations){
             rapidjson::Document document_done;
